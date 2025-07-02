@@ -1,0 +1,1 @@
+Put the game data here. You can leave it as gzip, the program will automatically do the unzipping.

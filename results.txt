@@ -1,0 +1,434 @@
+Acrobatics+1            1.3231
+Apotheosis+1            1.0578
+Biased Cognition        0.9558
+Well Laid Plans+1       0.9522
+WATCHER                 0.9158
+Evolve+1                0.8920
+Consume+1               0.8753
+Flash of Steel          0.8479
+Offering+1              0.8419
+Hologram+1              0.8276
+Vault+1                 0.8231
+MentalFortress+1        0.8079
+TalkToTheHand+1         0.7924
+Limit Break+1           0.7922
+DevaForm+1              0.7565
+Storm+1                 0.7534
+After Image+1           0.7505
+Reaper                  0.7474
+Chill                   0.7473
+Barricade+1             0.7330
+Defragment+1            0.7224
+Demon Form+1            0.7172
+ClearTheMind+1          0.7096
+Gash+1                  0.6992
+Reboot                  0.6991
+CutThroughFate+1        0.6964
+Feed+1                  0.6886
+Reinforced Body         0.6848
+Reaper+1                0.6845
+Creative AI+1           0.6826
+Leg Sweep+1             0.6805
+Electrodynamics+1       0.6789
+Catalyst+1              0.6761
+Uppercut                0.6655
+Double Tap+1            0.6562
+Venomology              0.6544
+Necronomicurse          0.6528
+Crippling Poison+1      0.6468
+Evaluate+1              0.6255
+Adrenaline+1            0.6229
+BattleHymn+1            0.6147
+Finesse                 0.6046
+Limit Break             0.5951
+Adaptation+1            0.5908
+Blade Dance+1           0.5880
+Barrage+1               0.5877
+Glacier+1               0.5572
+Buffer+1                0.5485
+Feel No Pain+1          0.5358
+Turbo+1                 0.5336
+All For One             0.5309
+Perfected Strike+1      0.5288
+Coolheaded+1            0.5279
+Offering                0.5091
+Whirlwind+1             0.5032
+Body Slam+1             0.5031
+Adrenaline              0.5022
+CrushJoints+1           0.4948
+Terror                  0.4819
+Shockwave+1             0.4812
+Parasite                0.4805
+Protect+1               0.4752
+Footwork+1              0.4730
+Blur+1                  0.4703
+BowlingBash             0.4677
+Echo Form+1             0.4670
+TalkToTheHand           0.4641
+Tantrum+1               0.4630
+Battle Trance+1         0.4502
+CutThroughFate          0.4494
+Backflip+1              0.4464
+Capacitor+1             0.4449
+Fire Breathing+1        0.4437
+Accuracy+1              0.4426
+Wallop+1                0.4385
+Chaos+1                 0.4253
+Corpse Explosion        0.4243
+Calculated Gamble+1     0.4120
+Whirlwind               0.4100
+LikeWater+1             0.4088
+BowlingBash+1           0.4078
+Infernal Blade+1        0.4063
+Infinite Blades+1       0.3981
+Feed                    0.3935
+EmptyBody+1             0.3872
+Conclude                0.3831
+Dash+1                  0.3827
+Hologram                0.3774
+Streamline+1            0.3744
+Spot Weakness+1         0.3741
+Pummel+1                0.3734
+Flex+1                  0.3709
+Heavy Blade+1           0.3655
+Quick Slash             0.3629
+Caltrops+1              0.3516
+Carnage+1               0.3504
+Bandage Up              0.3461
+Seeing Red+1            0.3424
+PiercingWail            0.3420
+Envenom+1               0.3416
+Prepared+1              0.3402
+Barricade               0.3358
+DevaForm                0.3329
+Catalyst                0.3320
+Body Slam               0.3279
+Doom and Gloom          0.3273
+Deflect+1               0.3269
+Clash                   0.3268
+Fiend Fire              0.3256
+Cold Snap+1             0.3243
+Glacier                 0.3209
+Self Repair+1           0.3178
+Berserk+1               0.3166
+Static Discharge+1      0.3165
+Shrug It Off+1          0.3140
+Rampage+1               0.3112
+Madness                 0.3102
+Madness+1               0.3066
+Crescendo+1             0.3061
+Adaptation              0.3041
+Bludgeon+1              0.3030
+Steam+1                 0.3007
+Malaise                 0.2963
+Chaos                   0.2956
+Rupture                 0.2954
+Echo Form               0.2939
+Sucker Punch+1          0.2931
+Leg Sweep               0.2922
+Core Surge              0.2884
+Terror+1                0.2861
+Leap                    0.2815
+Clothesline+1           0.2804
+Poisoned Stab+1         0.2763
+After Image             0.2737
+Backflip                0.2725
+Conserve Battery+1      0.2649
+MentalFortress          0.2597
+Noxious Fumes+1         0.2577
+Worship                 0.2563
+White Noise             0.2553
+Warcry+1                0.2530
+Heel Hook               0.2525
+Outmaneuver+1           0.2500
+Battle Trance           0.2483
+FlyingSleeves           0.2454
+Cloak And Dagger+1      0.2439
+A Thousand Cuts+1       0.2347
+Fission+1               0.2329
+Loop+1                  0.2326
+Coolheaded              0.2317
+Electrodynamics         0.2311
+Disarm+1                0.2244
+Clash+1                 0.2240
+Dagger Throw            0.2233
+Genetic Algorithm+1     0.2191
+ThirdEye+1              0.2186
+True Grit+1             0.2142
+Ghostly                 0.2128
+Uppercut+1              0.2109
+White Noise+1           0.2103
+Pommel Strike+1         0.2098
+Heavy Blade             0.2094
+Metallicize+1           0.2087
+Carnage                 0.2056
+Thunderclap+1           0.2005
+Prostrate+1             0.1968
+Disarm                  0.1910
+Blur                    0.1867
+Exhume                  0.1844
+Envenom                 0.1841
+Tantrum                 0.1818
+Corruption              0.1782
+Dodge and Roll+1        0.1766
+Calculated Gamble       0.1740
+Sentinel                0.1735
+ClearTheMind            0.1703
+Dodge and Roll          0.1667
+FollowUp+1              0.1603
+Backstab+1              0.1562
+Wallop                  0.1528
+Corpse Explosion+1      0.1497
+Bane                    0.1490
+Bouncing Flask+1        0.1468
+Loop                    0.1448
+Deflect                 0.1421
+Ragnarok+1              0.1409
+CrushJoints             0.1402
+Genetic Algorithm       0.1401
+Pray                    0.1368
+Leap+1                  0.1341
+Entrench                0.1339
+Power Through+1         0.1303
+Defend_B+1              0.1264
+Entrench+1              0.1260
+Flame Barrier           0.1249
+Masterful Stab          0.1242
+Beam Cell               0.1193
+Double Tap              0.1168
+Gash                    0.1163
+Shockwave               0.1135
+Perseverance            0.1133
+Twin Strike+1           0.1108
+Tempest                 0.1048
+Metallicize             0.0940
+Berserk                 0.0931
+Double Energy           0.0929
+Protect                 0.0924
+Inflame                 0.0920
+Sword Boomerang+1       0.0912
+Sweeping Beam+1         0.0911
+Flame Barrier+1         0.0895
+Redo+1                  0.0891
+Brilliance              0.0886
+Deadly Poison+1         0.0861
+Defend_G+1              0.0859
+Rebound                 0.0853
+InnerPeace              0.0787
+Shrug It Off            0.0784
+Sunder+1                0.0775
+DeusExMachina           0.0775
+Ball Lightning+1        0.0701
+Cleave+1                0.0645
+Backstab                0.0643
+Cold Snap               0.0636
+Dual Wield              0.0629
+Endless Agony           0.0619
+Noxious Fumes           0.0617
+CurseOfTheBell          0.0596
+Consecrate+1            0.0587
+Inflame+1               0.0548
+Chill+1                 0.0540
+FearNoEvil              0.0524
+Buffer                  0.0521
+Anger+1                 0.0481
+Burst                   0.0425
+Power Through           0.0364
+Self Repair             0.0327
+Pommel Strike           0.0321
+Sunder                  0.0289
+Clothesline             0.0288
+FlurryOfBlows           0.0282
+EmptyBody               0.0279
+Crescendo               0.0278
+Dark Embrace            0.0262
+Machine Learning        0.0250
+Injury                  0.0204
+Spot Weakness           0.0201
+Infinite Blades         0.0178
+Defend_B                0.0085
+Defend_G                0.0082
+Iron Wave+1             0.0076
+Static Discharge        0.0072
+Thunder Strike          0.0070
+Headbutt                0.0054
+Ball Lightning          0.0051
+Heatsinks               0.0047
+PiercingWail+1          0.0032
+PathToVictory+1         0.0004
+Accuracy                0.0000
+Armaments+1             0.0000
+Demon Form              0.0000
+Thunderclap             0.0000
+IRONCLAD                0.0000
+BootSequence            0.0000
+Second Wind             0.0000
+Evolve                  0.0000
+Impervious              0.0000
+Underhanded Strike      0.0000
+Finisher                0.0000
+Choke                   0.0000
+Decay                   0.0000
+Bludgeon                0.0000
+Prepared                0.0000
+Footwork                0.0000
+DeceiveReality          0.0000
+Creative AI             0.0000
+Dash                    0.0000
+Riddle With Holes       0.0000
+Slice                   0.0000
+Go for the Eyes+1       0.0000
+Dagger Spray+1          0.0000
+Well Laid Plans         0.0000
+Shame                   0.0000
+Predator                0.0000
+Distraction+1           0.0000
+Turbo                   0.0000
+Force Field             0.0000
+Bullet Time             0.0000
+Twin Strike             0.0000
+Ghostly Armor           0.0000
+Double Energy+1         0.0000
+Indignation             0.0000
+Pain                    0.0000
+Acrobatics              0.0000
+Hello World             0.0000
+Flying Knee+1           0.0000
+Ghostly+1               0.0000
+ReachHeaven            -0.0016
+Vigilance+1            -0.0023
+Dual Wield+1           -0.0067
+Defend_P+1             -0.0073
+Bane+1                 -0.0103
+Prostrate              -0.0105
+Writhe                 -0.0124
+Seek                   -0.0133
+Flying Knee            -0.0159
+Slice+1                -0.0161
+Redo                   -0.0181
+Meditate               -0.0195
+Conserve Battery       -0.0212
+Feel No Pain           -0.0292
+Juggernaut+1           -0.0307
+Defend_R+1             -0.0327
+Rage+1                 -0.0329
+A Thousand Cuts        -0.0340
+Perfected Strike       -0.0352
+Fire Breathing         -0.0357
+RitualDagger           -0.0362
+Distraction            -0.0376
+SandsOfTime            -0.0387
+Melter                 -0.0404
+Defragment             -0.0405
+Halt+1                 -0.0459
+FlurryOfBlows+1        -0.0463
+PathToVictory          -0.0505
+Barrage                -0.0534
+BattleHymn             -0.0536
+Establishment          -0.0551
+Intimidate             -0.0556
+Crippling Poison       -0.0591
+Steam                  -0.0643
+WindmillStrike         -0.0699
+Auto Shields           -0.0744
+FTL                    -0.0756
+Streamline             -0.0797
+Compile Driver         -0.0810
+Deadly Poison          -0.0827
+Seeing Red             -0.0850
+Escape Plan            -0.0864
+Evaluate               -0.0869
+Bouncing Flask         -0.0895
+Stack                  -0.0917
+Sword Boomerang        -0.0966
+Strike_B+1             -0.0972
+LikeWater              -0.1147
+Caltrops               -0.1175
+Iron Wave              -0.1196
+Flex                   -0.1220
+Bite+1                 -0.1225
+Blade Dance            -0.1225
+Headbutt+1             -0.1327
+Burning Pact           -0.1376
+Darkness+1             -0.1385
+SashWhip+1             -0.1399
+Warcry                 -0.1425
+Blood for Blood        -0.1449
+Bloodletting           -0.1488
+Undo                   -0.1539
+Juggernaut             -0.1544
+Strike_G+1             -0.1551
+Armaments              -0.1694
+Defend_R               -0.1719
+Immolate               -0.1754
+True Grit              -0.1758
+DEFECT                 -0.1779
+Storm                  -0.1805
+Wild Strike+1          -0.1858
+Bash+1                 -0.1903
+Defend_P               -0.1913
+Doubt                  -0.1916
+ThirdEye               -0.2024
+Devotion               -0.2050
+Cloak And Dagger       -0.2074
+Survivor               -0.2080
+Survivor+1             -0.2181
+Bite                   -0.2252
+All Out Attack         -0.2252
+Sucker Punch           -0.2290
+Cleave                 -0.2292
+Dagger Spray           -0.2448
+Strike_R+1             -0.2465
+EmptyFist+1            -0.2483
+Poisoned Stab          -0.2611
+Dagger Throw+1         -0.2773
+Rage                   -0.2810
+Vigilance              -0.2833
+Anger                  -0.2837
+AscendersBane          -0.2882
+Die Die Die            -0.3012
+Regret                 -0.3094
+CarveReality           -0.3097
+Lockon                 -0.3131
+Rainbow                -0.3147
+Infernal Blade         -0.3158
+Strike_G               -0.3223
+Dropkick               -0.3255
+Eruption+1             -0.3339
+Sweeping Beam          -0.3370
+Strike_R               -0.3379
+Darkness               -0.3412
+Beam Cell+1            -0.3431
+Go for the Eyes        -0.3441
+Ghostly Armor+1        -0.3623
+Strike_B               -0.3636
+Quick Slash+1          -0.3647
+FollowUp               -0.3782
+LessonLearned+1        -0.3843
+THE_SILENT             -0.3927
+Strike_P+1             -0.3965
+Capacitor              -0.3981
+Strike_P               -0.4133
+Reckless Charge        -0.4138
+Rampage                -0.4165
+Consecrate             -0.4512
+Halt                   -0.4588
+Immolate+1             -0.4629
+EmptyFist              -0.4695
+Outmaneuver            -0.4769
+SashWhip               -0.4804
+Zap+1                  -0.4870
+Wild Strike            -0.5256
+JustLucky              -0.5326
+Bash                   -0.5395
+Pummel                 -0.5570
+Tactician              -0.6748
+Amplify                -0.6762
+Neutralize+1           -0.6809
+LessonLearned          -0.7344
+Combust                -0.7970
+Dualcast+1             -0.9591
+Zap                    -0.9814
+Dualcast               -1.0804
+Eruption               -1.0949
+Neutralize             -1.2914

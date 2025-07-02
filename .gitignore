@@ -1,0 +1,5 @@
+.venv
+__pycache__
+run_data/*.json
+run_data/.DS_Store
+.DS_Store
