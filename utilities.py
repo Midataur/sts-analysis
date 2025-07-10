@@ -1,4 +1,5 @@
 from collections import defaultdict as dd
+from game_data import VOCABULARY, CARDS_LIST
 import pandas as pd
 from tqdm import tqdm
 import os
@@ -6,11 +7,9 @@ import json
 import gzip
 from tqdm import tqdm
 
-RUN_DATA_PATH = "./run_data/"
-
-def process_zips():
-    for filename in tqdm(os.listdir(RUN_DATA_PATH), desc="Unzipping files"):
-        full_name = RUN_DATA_PATH+filename
+def process_zips(data_path):
+    for filename in tqdm(os.listdir(data_path), desc="Unzipping files"):
+        full_name = data_path+filename
 
         if filename[-2:] == "gz":
             # unzip file
@@ -27,15 +26,28 @@ def pad(thing, coef, columns):
     remaining = max_length + 3 - len(thing) + int(coef >= 0)
     return thing + " "*remaining
 
+def format_choice(choice):
+    options = choice["not_picked"]
+
+    # SKIP is always implicitly an option
+    # no need to add it explicitly
+    if choice["picked"] != "SKIP":
+        options.append(choice["picked"])
+
+    return {
+        "options": options,
+        "picked": choice["picked"]
+    }
+
 def extract_runs(silent=False):
     runs = []
 
     # load files
-    for file_name in tqdm(os.listdir(RUN_DATA_PATH), disable=silent, desc="Extracting runs"):
-        if file_name[0] == ".":
+    for file_name in tqdm(os.listdir(run_data_path), disable=silent, desc="Extracting runs"):
+        if file_name[-5:] != ".json":
             continue
 
-        with open(f"{RUN_DATA_PATH}/{file_name}") as file:
+        with open(f"{run_data_path}/{file_name}") as file:
             data = json.load(file)
 
             for game in data:
@@ -75,3 +87,14 @@ def runs_to_df(runs, threshold=0.01):
     data = data.drop(columns=removing)
 
     return data
+
+def tokenize(item, category=None):
+    # return special category token
+    if category == "cards":
+        return CARDS_LIST.index(item)
+    
+    # return regular token
+    return VOCABULARY.index(item)
+
+def tokenize_list(cat_data):
+    return list(map(tokenize, cat_data))
