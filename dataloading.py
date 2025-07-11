@@ -54,55 +54,26 @@ class SimpleDataset(Dataset):
         )
 
         return sample
-        
-def load_data(skip_train=False, verbose=False):
+
+# data type can be train, val, or test
+def create_dataset_and_loader(data_type, config, verbose=False):
     run_data_path = "./run_data"
 
     accelerator = Accelerator()
     should_speak = verbose and accelerator.is_local_main_process
 
-    train_inputs = np.array([[0 for x in range(INPUT_LENGTH)]])
-    train_perms = np.array([[0 for x in range(MAX_GROUP_SIZE)]])
-
-    if not skip_train:
-        if should_speak:
-            print("Loading training data...")
-        
-        
-    else:
-        train_inputs = None
-        train_perms = None
-        dataset_size = None
-
+    # do train states
     if should_speak:
-         print("Loading validation data...")
+        print(f"Loading {data_type} data...")
+        
+    path = f"{run_data_path}/{data_type}"
+    process_zips(path)
+    states, choices = extract_runs(path)
 
-    val_seqs = np.loadtxt(PATH + DATA + "val_data.csv", delimiter=",").astype(int)
-    val_perms = np.loadtxt(PATH + DATA + "val_data_perms.csv", delimiter=",").astype(int)
-
-    if should_speak:
-         print("Loading test data...")
-
-    test_seqs = np.loadtxt(PATH + DATA + "test_data.csv", delimiter=",").astype(int)
-    test_perms = np.loadtxt(PATH + DATA + "test_data_perms.csv", delimiter=",").astype(int)
+    batchsize, n_workers = config["batchsize"], config["n_workers"]
 
     # create the dataloaders
-    if not skip_train:
-        train_dataset = dataset_class(train_inputs, train_perms, question=question, mainthread=should_speak)
-        train_dataloader = DataLoader(train_dataset, batch_size=BATCHSIZE, num_workers=N_WORKERS)
-    else:
-        train_dataset = None
-        train_dataloader = None
+    dataset = SimpleDataset(states, choices, mainthread=should_speak)
+    dataloader = DataLoader(states, choices, batch_size=batchsize, num_workers=n_workers)
 
-    val_dataset = dataset_class(val_seqs, val_perms, question=question, mainthread=should_speak)
-    val_dataloader = DataLoader(val_dataset, batch_size=BATCHSIZE, num_workers=N_WORKERS)
-
-    test_dataset = dataset_class(test_seqs, test_perms, question=question, mainthread=should_speak)
-    test_dataloader = DataLoader(test_dataset, batch_size=BATCHSIZE, num_workers=N_WORKERS)
-
-    return (
-         train_inputs, train_perms, train_dataloader, 
-         val_seqs, val_perms, val_dataloader,
-         test_seqs, test_perms, test_dataloader,
-         dataset_size
-    )
+    return dataset, dataloader

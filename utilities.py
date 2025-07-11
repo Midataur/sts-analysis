@@ -1,11 +1,11 @@
 from collections import defaultdict as dd
 from game_data import VOCABULARY, CARDS_LIST
+from torch import argmax
 import pandas as pd
 from tqdm import tqdm
 import os
 import json
 import gzip
-from tqdm import tqdm
 
 def process_zips(data_path):
     for filename in tqdm(os.listdir(data_path), desc="Unzipping files"):
@@ -39,15 +39,15 @@ def format_choice(choice):
         "picked": choice["picked"]
     }
 
-def extract_runs(silent=False):
+def extract_runs(data_path, silent=False):
     runs = []
 
     # load files
-    for file_name in tqdm(os.listdir(run_data_path), disable=silent, desc="Extracting runs"):
+    for file_name in tqdm(os.listdir(data_path), disable=silent, desc="Extracting runs"):
         if file_name[-5:] != ".json":
             continue
 
-        with open(f"{run_data_path}/{file_name}") as file:
+        with open(f"{data_path}/{file_name}") as file:
             data = json.load(file)
 
             for game in data:
@@ -98,3 +98,8 @@ def tokenize(item, category=None):
 
 def tokenize_list(cat_data):
     return list(map(tokenize, cat_data))
+
+def calculate_accuracy(output, target):
+    # targets is a (B) tensor of integers that have the index of the correct class
+    # we need to see if the max logit is at the right index
+    return (argmax(output, dim=1) == target).float().mean()
