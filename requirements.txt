@@ -41,7 +41,6 @@ PyYAML==6.0.2
 pyzmq==27.0.0
 requests==2.32.4
 safetensors==0.5.3
-scikit-learn==1.7.0
 scipy==1.16.0
 sentry-sdk==2.32.0
 setuptools==80.9.0
