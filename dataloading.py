@@ -1,23 +1,26 @@
 from utilities import *
 from torch.utils.data import DataLoader, Dataset
-from torch import tensor, float32, cuda, device
-import numpy as np
-from scipy import sparse
-from tqdm import tqdm
+from torch import tensor, float32
+from state_analysis import extract_states_and_choices
 from accelerate import Accelerator
-import os
+
+MAX_OPTIONS_LENGTH = 5
 
 class SimpleDataset(Dataset):
-    def __init__(self, states, choices, *args, **kwargs):
+    def __init__(self, states, choices, config, *args, **kwargs):
         state_cat = []
         state_cont = []
         card_choices = []
         targets = []
 
+        max_cat_length = config["max_cat_length"]
+
         for state, choice in zip(states, choices):
             # get categorical data
             # order: character, deck, relics, choices
-            cat_data = state["character"] + state["deck"] + state["relics"]
+            cat_data = [state["character"]] + state["deck"] + state["relics"]
+            cat_data = pad_cat_data(cat_data, max_cat_length)
+
             state_cat.append(tokenize_list(cat_data))
 
             # get cont data
@@ -32,18 +35,19 @@ class SimpleDataset(Dataset):
             ])
 
             # get card choices
-            card_choices.append(tokenize_list(choice["options"], category="cards"))
+            options = pad_cat_data(choice["options"], MAX_OPTIONS_LENGTH)
+            card_choices.append(tokenize_list(options, category="cards"))
 
             # get target
             targets.append(tokenize(choice["picked"], category="cards"))
       
         self.state_cat = tensor(state_cat, dtype=int)
-        self.state_cont = tensor(state_cat, dtype=float)
-        self.card_choices = tensor(card_choices, int)
+        self.state_cont = tensor(state_cont, dtype=float32)
+        self.card_choices = tensor(card_choices, dtype=int)
         self.targets = tensor(targets, dtype=int)
 
     def __len__(self):
-        return len(self.cat)
+        return len(self.state_cat)
 
     def __getitem__(self, index):
         sample = (
@@ -68,12 +72,13 @@ def create_dataset_and_loader(data_type, config, verbose=False):
         
     path = f"{run_data_path}/{data_type}"
     process_zips(path)
-    states, choices = extract_runs(path)
+    runs = extract_runs(path)
+    states, choices = extract_states_and_choices(runs)
 
     batchsize, n_workers = config["batchsize"], config["n_workers"]
 
     # create the dataloaders
-    dataset = SimpleDataset(states, choices, mainthread=should_speak)
-    dataloader = DataLoader(states, choices, batch_size=batchsize, num_workers=n_workers)
+    dataset = SimpleDataset(states, choices, config, mainthread=should_speak)
+    dataloader = DataLoader(dataset, batch_size=batchsize, num_workers=n_workers)
 
     return dataset, dataloader

@@ -1,5 +1,5 @@
 from collections import defaultdict as dd
-from game_data import VOCABULARY, CARDS_LIST
+from game_data import *
 from torch import argmax
 import pandas as pd
 from tqdm import tqdm
@@ -91,15 +91,23 @@ def runs_to_df(runs, threshold=0.01):
 def tokenize(item, category=None):
     # return special category token
     if category == "cards":
-        return CARDS_LIST.index(item)
+        return AUGMENTED_CARDS_LIST.index(item)
     
     # return regular token
     return VOCABULARY.index(item)
 
-def tokenize_list(cat_data):
-    return list(map(tokenize, cat_data))
+def tokenize_list(cat_data, category=None):
+    return [tokenize(x, category) for x in cat_data]
 
 def calculate_accuracy(output, target):
     # targets is a (B) tensor of integers that have the index of the correct class
     # we need to see if the max logit is at the right index
     return (argmax(output, dim=1) == target).float().mean()
+
+def pad_cat_data(cat_data, max_cat_length):
+    if len(cat_data) > max_cat_length:
+        msg = f"cat_data is longer than max_cat_length ({len(cat_data)} > {max_cat_length})."
+        raise Exception(msg)
+
+    remaining = max_cat_length - len(cat_data)
+    return cat_data + [EMPTY_TOKEN]*remaining

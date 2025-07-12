@@ -1,23 +1,18 @@
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
-from game_data import VOCABULARY_LIST, CARDS_LIST
-
-CONFIG = {
-    "n_embed": 402,
-    "n_head": 6,
-    "dropout": 0,
-    "n_blocks": 4,
-    "context_length": None,
-    "n_cont": 6
-}
-
-assert CONFIG["n_embed"] % CONFIG["n_head"] == 0
+from game_data import VOCABULARY, CARDS_LIST
 
 class Head(nn.Module):
-    def __init__(self, config, head_size):
+    def __init__(self, config):
         super().__init__()
-        n_embed, dropout = config["n_embed"], config["dropout"]
+        
+        n_embed = config["n_embed"]
+        n_heads = config["n_heads"]
+        dropout = config["dropout"]
+
+        head_size = n_embed // n_heads
+
         self.key = nn.Linear(n_embed, head_size, bias=False)
         self.query = nn.Linear(n_embed, head_size, bias=False)
         self.value = nn.Linear(n_embed, head_size, bias=False)
@@ -49,11 +44,13 @@ class Head(nn.Module):
         return out
     
 class MultiHeadAttention(nn.Module):
-    def __init__(self, config, num_heads, head_size):
+    def __init__(self, config):
         super().__init__()
-        n_embed, dropout = config["n_embed"], config["dropout"]
+        n_heads = config["n_heads"]
+        n_embed = config["n_embed"]
+        dropout = config["dropout"]
 
-        self.heads = nn.ModuleList([Head(head_size) for _ in range(num_heads)])
+        self.heads = nn.ModuleList([Head(config) for _ in range(n_heads)])
         self.proj = nn.Linear(n_embed, n_embed)
         self.dropout = nn.Dropout(dropout)
 
@@ -85,12 +82,10 @@ class Block(nn.Module):
 
     def __init__(self, config):
         super().__init__()
-        n_embed, n_head = config["n_embed"], config["n_head"]
+        n_embed = config["n_embed"]
 
-        head_size = n_embed // n_head
-
-        self.sa = MultiHeadAttention(n_head, head_size)
-        self.ffwd = FeedForward(n_embed)
+        self.sa = MultiHeadAttention(config)
+        self.ffwd = FeedForward(config)
 
         self.ln1 = nn.LayerNorm(n_embed)
         self.ln2 = nn.LayerNorm(n_embed)
@@ -107,11 +102,10 @@ class NQTransformer(nn.Module):
     def __init__(self, config, *args):
         super().__init__()
         n_embed = config["n_embed"]
-        n_head = config["n_head"]
         n_blocks = config["n_blocks"]
         n_cont = config["n_cont"]
 
-        vocab_size = len(VOCABULARY_LIST)
+        vocab_size = len(VOCABULARY)
         card_count = len(CARDS_LIST)
 
         self.state_token_embedding_table = nn.Embedding(vocab_size, n_embed)
@@ -121,7 +115,7 @@ class NQTransformer(nn.Module):
         # this is just a place to attach a hook
         self.embed_hook = nn.Identity()
         
-        self.blocks = [Block(n_embed, n_head) for _ in range(n_blocks)]
+        self.blocks = [Block(config) for _ in range(n_blocks)]
         self.blocks.append(nn.LayerNorm(n_embed))
 
         self.blocks = nn.Sequential(*self.blocks)
@@ -136,20 +130,24 @@ class NQTransformer(nn.Module):
         self.softmax = nn.Softmax()
 
     def forward(self, cat, cont, choice):
-        # idx and targets are both (B, T) tensor of integers
-        tok_emb = self.main_token_embedding_table(cat) #(B, T, C)
-        cont_emb = self.cont_embedding_transformation(cont)
-        card_emb = self.choice_token_embedding_table(choice)
+        # get embeddings
+        tok_emb = self.state_token_embedding_table(cat) # (B, C, E)
+        cont_emb = self.cont_embedding_transformation(cont) # (B, E)
+        card_emb = self.choice_token_embedding_table(choice) # (B, C, E)
+
+        #reshape cont_emb
+        batchsize = tok_emb.shape[0]
+        cont_emb = cont_emb.reshape((batchsize, 1, -1)) # (B, C, E)
 
         x = torch.concat((tok_emb, cont_emb, card_emb), dim=1)
         
         x = self.embed_hook(x)
         
-        x = self.blocks(x) # apply a bunch of blocks (sa + feedforward) (B, T, C)
+        x = self.blocks(x) # apply a bunch of blocks (sa + feedforward) (B, C, E)
 
         # add all the vectors together
         # seems interesting
-        x = torch.sum(x, axis=1) # (B, C)
+        x = torch.sum(x, axis=1) # (B, E)
 
         logits = self.lm_head(x) #(B, vocab_size)
 

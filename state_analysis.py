@@ -187,7 +187,7 @@ def extract_states_and_choices(runs, verbose=True):
     states = []
     choices = []
 
-    for run in tqdm(runs, delay=verbose):
+    for run in tqdm(runs, delay=verbose, desc="Extracting states and choices"):
         if not run["is_ascension_mode"] or len(run["gold_per_floor"]) != run["floor_reached"]-1:
             continue
         

@@ -31,9 +31,9 @@ def train(config):
     model = NQTransformer(config)
 
     # optionally: load the model
-    PATH = config["PATH"]
-    MODELNAME = config["MODELNAME"]
-    save_directory = f"{PATH}/model/{MODELNAME}"
+    path = config["PATH"]
+    modelname = config["modelname"]
+    save_directory = f"{path}/model/{modelname}"
     file_path = f"{save_directory}/model.safetensors"
     
     if os.path.isfile(file_path):
@@ -77,13 +77,13 @@ def train(config):
         # start a new wandb run to track this script
         wandb.init(
             # set the wandb project where this run will be logged
-            project=f"scaling-generators",
+            project=f"slay-the-spire",
 
             # track run hyperparameters and metadata
             config=config,
-            settings=wandb.Settings(start_method="fork"),
+            settings=wandb.Settings(),
             resume="allow",
-            id=MODELNAME
+            id=modelname
         )
 
     # patience = 45
@@ -107,9 +107,9 @@ def train(config):
         if accelerator.is_local_main_process:
             print("Training...")
         
-        for inputs, targets in tqdm(train_dataloader, disable=not accelerator.is_local_main_process):
+        for cat, cont, choice, targets in tqdm(train_dataloader, disable=not accelerator.is_local_main_process):
             optimizer.zero_grad()  # Zero the gradients
-            outputs = model(inputs)  # Forward pass
+            outputs = model(cat, cont, choice)  # Forward pass
 
             loss = criterion(outputs, targets)  # Calculate the loss
             accelerator.backward(loss)  # Backward pass
@@ -137,8 +137,8 @@ def train(config):
             if accelerator.is_local_main_process:
                 print("Evaluating...")
 
-            for inputs, targets in tqdm(val_dataloader, disable=not accelerator.is_local_main_process):
-                outputs = model(inputs)
+            for cat, cont, choice, targets in tqdm(val_dataloader, disable=not accelerator.is_local_main_process):
+                outputs = model(cat, cont, choice)
 
                 all_outputs, all_targets = accelerator.gather_for_metrics((outputs, targets))
 

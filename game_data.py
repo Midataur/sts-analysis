@@ -1,3 +1,6 @@
+# contains more than just game data
+# more like "problem data"
+
 STARTING_DECKS = {
     "IRONCLAD": ["Strike_R"] * 5 + ["Defend_R"] * 4 + ["Bash"],
     "THE_SILENT": ["Strike_G"] * 5 + ["Defend_G"] * 5 + ["Neutralize", "Survivor"],
@@ -768,6 +771,7 @@ CARDS_LIST = [
     'Shrug It Off+1',
     'SignatureMove',
     'SignatureMove+1',
+    'Singing Bowl', # this replaces SKIP in certain circumstances
     'Skewer',
     'Skewer+1',
     'Skim',
@@ -902,4 +906,10 @@ CARDS_LIST = [
     'Zap+1'
 ]
 
-VOCABULARY = CHARACTER_LIST  + CARDS_LIST + RELICS_LIST
+EMPTY_TOKEN = "EMPTY" # designates an empty categorical slot
+
+SPECIAL_TOKENS = [EMPTY_TOKEN]
+
+AUGMENTED_CARDS_LIST = CARDS_LIST + SPECIAL_TOKENS
+
+VOCABULARY = CHARACTER_LIST  + CARDS_LIST + RELICS_LIST + SPECIAL_TOKENS
