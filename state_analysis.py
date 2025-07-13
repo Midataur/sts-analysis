@@ -139,7 +139,7 @@ def reconstruct_state(run, floor, verbose=False):
         # print(deck)
         # print(event, "\n")
         if verbose:
-            print(f"Floor {event["floor"]}:")
+            print(f"Floor {event['floor']}:")
             print("Gained:", ", ".join(event["cards_obtained"]))
             print("Lost:", ", ".join(event["cards_removed"]), "\n")
 
