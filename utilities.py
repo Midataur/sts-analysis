@@ -54,7 +54,7 @@ def format_choice(choice):
 def extract_runs(data_path, files=None, verbose=True):
     runs = []
 
-    if files is not None:
+    if files is None:
         files = os.listdir(data_path)
 
     # load files
