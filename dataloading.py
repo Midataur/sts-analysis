@@ -85,6 +85,10 @@ class SimpleDataset(Dataset):
                 state["victory"]
             ]
             
+            # check for modded runs
+            if len(choice["options"]) > MAX_OPTIONS_LENGTH:
+                print("Weirdly long options, skipping")
+                continue
 
             # get card choices
             options = pad_cat_data(choice["options"], MAX_OPTIONS_LENGTH)
