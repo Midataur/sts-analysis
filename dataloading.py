@@ -53,6 +53,7 @@ class SimpleDataset(Dataset):
         card_choices = []
         targets = []
 
+        discard_too_long = self.config["discard_too_long"]
         max_cat_length = self.config["max_cat_length"]
 
         for state, choice in tqdm(
@@ -64,6 +65,10 @@ class SimpleDataset(Dataset):
             # get categorical data
             # order: character, deck, relics, choices
             cat_data = [state["character"]] + state["deck"] + state["relics"]
+
+            if len(cat_data) > max_cat_length and discard_too_long:
+                continue
+            
             cat_data = pad_cat_data(cat_data, max_cat_length)
 
             state_cat.append(tokenize_list(cat_data))
