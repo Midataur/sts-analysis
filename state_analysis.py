@@ -183,7 +183,7 @@ def reconstruct_state(run, floor, verbose=False):
         "victory": run["victory"]
     }
 
-def extract_states_and_choices(runs, verbose=True):
+def extract_states_and_choices(runs, verbose=True, strict=False):
     states = []
     choices = []
 
@@ -192,7 +192,12 @@ def extract_states_and_choices(runs, verbose=True):
             continue
         
         for choice in run["card_choices"]:
-            states.append(reconstruct_state(run, choice["floor"]-1))
-            choices.append(format_choice(choice))
+            try:
+                states.append(reconstruct_state(run, choice["floor"]-1))
+                choices.append(format_choice(choice))
+            except Exception as e:
+                if strict:
+                    raise e
+                continue
 
     return states, choices
