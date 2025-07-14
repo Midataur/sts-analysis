@@ -104,13 +104,12 @@ def runs_to_df(runs, threshold=0.01):
     return data
 
 def tokenize(item, category=None):
+    if item not in VOCABULARY:
+        return VOCABULARY.index(MISSING_TOKEN)
+
     # return special category token
     if category == "cards":
         return AUGMENTED_CARDS_LIST.index(item)
-    
-    if item not in VOCABULARY:
-        print("Missing token", item)
-        return VOCABULARY.index(MISSING_TOKEN)
     
     # return regular token
     return VOCABULARY.index(item)

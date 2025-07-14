@@ -66,28 +66,38 @@ class SimpleDataset(Dataset):
             # order: character, deck, relics, choices
             cat_data = [state["character"]] + state["deck"] + state["relics"]
 
+            # skip very long runs
             if len(cat_data) > max_cat_length and discard_too_long:
-                print("Too big, skipping")
                 continue
             
             cat_data = pad_cat_data(cat_data, max_cat_length)
 
-            state_cat.append(tokenize_list(cat_data))
+            tok_state = tokenize_list(cat_data)
 
             # get cont data
             # order: alphabetical
-            state_cont.append([
+            cont_data = [
                 state["ascension"],
                 state["current_hp"],
                 state["floor"],
                 state["gold"],
                 state["max_hp"],
                 state["victory"]
-            ])
+            ]
+            
 
             # get card choices
             options = pad_cat_data(choice["options"], MAX_OPTIONS_LENGTH)
-            card_choices.append(tokenize_list(options, category="cards"))
+
+            tok_cards = tokenize_list(options, category="cards")
+
+            # skip modded runs
+            if MISSING_TOKEN in tok_state or MISSING_TOKEN in tok_cards:
+                continue
+
+            state_cat.append(tok_state)
+            state_cont.append(cont_data)
+            card_choices.append(tok_cards)
 
             # get target
             targets.append(tokenize(choice["picked"], category="cards"))
