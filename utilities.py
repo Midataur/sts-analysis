@@ -108,6 +108,10 @@ def tokenize(item, category=None):
     if category == "cards":
         return AUGMENTED_CARDS_LIST.index(item)
     
+    if item not in VOCABULARY:
+        print("Missing token", item)
+        return EMPTY_TOKEN
+    
     # return regular token
     return VOCABULARY.index(item)
 
