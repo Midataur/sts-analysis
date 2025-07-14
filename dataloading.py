@@ -108,7 +108,7 @@ def create_dataset(data_type, config, verbose=False):
 
     dataset = None
 
-    for batch in tqdm(batched(filenames, batchsize), disable=not should_speak, desc="Processing..."):
+    for batch in tqdm(batched(filenames, batchsize), disable=not should_speak, desc="Processing batches..."):
         runs = extract_runs(path, files=batch, verbose=should_speak)
         states, choices = extract_states_and_choices(runs, verbose=should_speak)
 

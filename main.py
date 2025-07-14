@@ -18,7 +18,7 @@ CONFIG = {
     "lr_patience": 10,
     "threshold": 0.01,
     "n_workers": 0,
-    "max_cat_length": 200, #decided empirically, never needed more than 100
+    "max_cat_length": 500, #decided empirically, never needed more than 100
     "PATH": ".",
     "use_preprocessed_data": True,
     "file_batchsize": 500 # amount of files to load in at once for processing
