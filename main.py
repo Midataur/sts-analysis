@@ -1,4 +1,5 @@
-print("Loading libraries...")
+if __name__ == "__main__":
+    print("Loading libraries...")
 
 from training import train
 
@@ -19,6 +20,8 @@ CONFIG = {
     "n_workers": 0,
     "max_cat_length": 120, #decided emperically, never needed more than 100
     "PATH": ".",
+    "use_preprocessed_data": True,
+    "file_batchsize": 4000 # amount of files to load in at once for processing
 }
 
 assert CONFIG["n_embed"] % CONFIG["n_heads"] == 0

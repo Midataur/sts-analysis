@@ -7,8 +7,8 @@ import os
 import json
 import gzip
 
-def process_zips(data_path):
-    for filename in tqdm(os.listdir(data_path), desc="Unzipping files"):
+def process_zips(data_path, verbose=True):
+    for filename in tqdm(os.listdir(data_path), desc="Unzipping files", disable=not verbose):
         full_name = data_path+filename
 
         if filename[-2:] == "gz":
@@ -39,11 +39,15 @@ def format_choice(choice):
         "picked": choice["picked"]
     }
 
-def extract_runs(data_path, silent=False):
+# files can be specified manually, or just a path can be given
+def extract_runs(data_path, files=None, verbose=True):
     runs = []
 
+    if files is not None:
+        files = os.listdir(data_path)
+
     # load files
-    for file_name in tqdm(os.listdir(data_path), disable=silent, desc="Extracting runs"):
+    for file_name in tqdm(files, disable=not verbose, desc="Extracting runs"):
         if file_name[-5:] != ".json":
             continue
 
