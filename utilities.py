@@ -1,11 +1,22 @@
 from collections import defaultdict as dd
 from game_data import *
 from torch import argmax
+from itertools import islice
 import pandas as pd
 from tqdm import tqdm
 import os
 import json
 import gzip
+
+def batched(iterable, n, *, strict=False):
+    # batched('ABCDEFG', 3) → ABC DEF G
+    if n < 1:
+        raise ValueError('n must be at least one')
+    iterator = iter(iterable)
+    while batch := tuple(islice(iterator, n)):
+        if strict and len(batch) != n:
+            raise ValueError('batched(): incomplete batch')
+        yield batch
 
 def process_zips(data_path, verbose=True):
     for filename in tqdm(os.listdir(data_path), desc="Unzipping files", disable=not verbose):

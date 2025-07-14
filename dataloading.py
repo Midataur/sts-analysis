@@ -3,7 +3,6 @@ from torch.utils.data import DataLoader, Dataset
 from torch import tensor, float32
 from state_analysis import extract_states_and_choices
 from accelerate import Accelerator
-from itertools import batched
 import torch
 
 MAX_OPTIONS_LENGTH = 5
