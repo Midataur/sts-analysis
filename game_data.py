@@ -136,6 +136,7 @@ RELICS_LIST = [
     "Philosopher's Stone",
     'Pocketwatch',
     'Potion Belt',
+    'Prayer Beads'
     'Prayer Wheel',
     'PreservedInsect',
     'PrismaticShard',

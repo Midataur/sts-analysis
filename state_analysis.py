@@ -198,6 +198,7 @@ def extract_states_and_choices(runs, verbose=True, strict=False):
             except Exception as e:
                 if strict:
                     raise e
+                print("Error, ignoring")
                 continue
 
     return states, choices

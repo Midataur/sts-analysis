@@ -67,6 +67,7 @@ class SimpleDataset(Dataset):
             cat_data = [state["character"]] + state["deck"] + state["relics"]
 
             if len(cat_data) > max_cat_length and discard_too_long:
+                print("Too big, skipping")
                 continue
             
             cat_data = pad_cat_data(cat_data, max_cat_length)
