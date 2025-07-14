@@ -110,7 +110,7 @@ def tokenize(item, category=None):
     
     if item not in VOCABULARY:
         print("Missing token", item)
-        return EMPTY_TOKEN
+        return VOCABULARY.index(MISSING_TOKEN)
     
     # return regular token
     return VOCABULARY.index(item)

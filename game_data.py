@@ -907,8 +907,9 @@ CARDS_LIST = [
 ]
 
 EMPTY_TOKEN = "EMPTY" # designates an empty categorical slot
+MISSING_TOKEN = "MISSING" # designates a weird (probably modded token)
 
-SPECIAL_TOKENS = [EMPTY_TOKEN]
+SPECIAL_TOKENS = [EMPTY_TOKEN, MISSING_TOKEN]
 
 AUGMENTED_CARDS_LIST = CARDS_LIST + SPECIAL_TOKENS
 
