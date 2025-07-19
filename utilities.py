@@ -63,7 +63,12 @@ def extract_runs(data_path, files=None, verbose=True):
             continue
 
         with open(f"{data_path}/{file_name}") as file:
-            data = json.load(file)
+            try:
+                data = json.load(file)
+            except Exception as e:
+                print(f"While reading {data_path}/{file_name} the following error was encountered:")
+                print(e)
+                print("Skipping for now")
 
             for game in data:
                 runs.append(game["event"])
