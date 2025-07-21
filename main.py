@@ -4,15 +4,15 @@ if __name__ == "__main__":
 from training import train
 
 CONFIG = {
-    "modelname": "starter-2",
+    "modelname": "starter-3",
     "n_embed": 402,
     "n_heads": 6,
     "dropout": 0,
-    "n_blocks": 4,
+    "n_blocks": 6,
     "context_length": None,
     "n_cont": 6,
     "learning_rate": 3*(10**-5),
-    "batchsize": 1024,
+    "batchsize": 64,
     "weight_decay": 0.05,
     "lr_factor": 0.1,
     "lr_patience": 10,
