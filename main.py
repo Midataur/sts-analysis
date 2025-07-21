@@ -4,11 +4,11 @@ if __name__ == "__main__":
 from training import train
 
 CONFIG = {
-    "modelname": "starter-3",
+    "modelname": "starter-2",
     "n_embed": 402,
     "n_heads": 6,
     "dropout": 0,
-    "n_blocks": 6,
+    "n_blocks": 4,
     "context_length": None,
     "n_cont": 6,
     "learning_rate": 3*(10**-5),
