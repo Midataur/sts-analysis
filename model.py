@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
-from game_data import VOCABULARY, CARDS_LIST
+from game_data import VOCABULARY, AUGMENTED_CARDS_LIST
 
 class Head(nn.Module):
     def __init__(self, config):
@@ -106,7 +106,7 @@ class NQTransformer(nn.Module):
         n_cont = config["n_cont"]
 
         vocab_size = len(VOCABULARY)
-        card_count = len(CARDS_LIST)
+        card_count = len(AUGMENTED_CARDS_LIST)
 
         self.state_token_embedding_table = nn.Embedding(vocab_size, n_embed)
         self.cont_embedding_transformation = nn.Linear(n_cont, n_embed, bias=True)
