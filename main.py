@@ -21,7 +21,7 @@ CONFIG = {
     "max_cat_length": 200, #decided empirically, never needed more than 100
     "discard_too_long": True,
     "PATH": ".",
-    "use_preprocessed_data": True,
+    "use_preprocessed_data": False,
     "file_batchsize": 500 # amount of files to load in at once for processing
 }
 
