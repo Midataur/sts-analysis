@@ -24,8 +24,8 @@ def train(config):
         # load the data
         print("Loading data...")
 
-    train_dataloader = create_dataset_and_loader("train", config)[1]
-    val_dataloader = create_dataset_and_loader("val", config)[1]
+    train_dataloader = get_dataset_and_loader("train", config)[1]
+    val_dataloader = get_dataset_and_loader("val", config)[1]
 
     # setup the model
     model = NQTransformer(config)

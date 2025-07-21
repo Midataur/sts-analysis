@@ -4,6 +4,7 @@ from torch import tensor, float32
 from state_analysis import extract_states_and_choices
 from accelerate import Accelerator
 import torch
+import os
 
 MAX_OPTIONS_LENGTH = 5
 
@@ -111,8 +112,7 @@ class SimpleDataset(Dataset):
 def create_dataset(data_type, config, verbose=False):
     run_data_path = "./run_data"
 
-    accelerator = Accelerator()
-    should_speak = verbose #and accelerator.is_local_main_process
+    should_speak = verbose
 
     # do train states
     if should_speak:
@@ -139,9 +139,34 @@ def create_dataset(data_type, config, verbose=False):
     
     return dataset
 
+# allow proper loading of preprocessed datasets
+torch.serialization.add_safe_globals([
+    SimpleDataset
+])
+
 # data type can be train, val, or test
-def create_dataset_and_loader(data_type, config, verbose=False):
-    dataset = create_dataset(data_type, config, verbose)
+def get_dataset_and_loader(data_type, config, verbose=False):
+    # check if we are loading prepocessed data
+    # we usually will be
+    if config["use_preprocessed_data"]:
+        folder = config["PATH"]+"/datasets"
+        file_loc = f"{folder}/{data_type}.pt"
+
+        if verbose:
+            print("Loading {data_type} datatset from file...")
+
+        # check the data exists
+        if f"{data_type}.pt" not in os.listdir(folder):
+            raise Exception(
+                f"{data_type} saved dataset does not exist. Run preprocessing.py to generate."
+            )
+
+        # load the dataset
+        dataset = torch.load(file_loc)
+    else:
+        if verbose:
+            print("Creating {data_type} dataset...")
+        dataset = create_dataset(data_type, config, verbose)
 
     batchsize, n_workers = config["batchsize"], config["n_workers"]
     dataloader = DataLoader(dataset, batch_size=batchsize, num_workers=n_workers)
