@@ -133,7 +133,12 @@ class NQTransformer(nn.Module):
         # get embeddings
         tok_emb = self.state_token_embedding_table(cat) # (B, C, E)
         cont_emb = self.cont_embedding_transformation(cont) # (B, E)
-        card_emb = self.choice_token_embedding_table(choice) # (B, C, E)
+
+        try:
+            card_emb = self.choice_token_embedding_table(choice) # (B, C, E)
+        except:
+            print(choice.max())
+            0/0
 
         #reshape cont_emb
         batchsize = tok_emb.shape[0]
