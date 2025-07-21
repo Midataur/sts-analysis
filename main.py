@@ -12,7 +12,7 @@ CONFIG = {
     "context_length": None,
     "n_cont": 6,
     "learning_rate": 3*(10**-5),
-    "batchsize": 64,
+    "batchsize": 1024,
     "weight_decay": 0.05,
     "lr_factor": 0.1,
     "lr_patience": 10,
