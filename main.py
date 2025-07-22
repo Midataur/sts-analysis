@@ -4,7 +4,7 @@ if __name__ == "__main__":
 from training import train
 
 CONFIG = {
-    "modelname": "starter-4",
+    "modelname": "starter-5",
     "n_embed": 402,
     "n_heads": 6,
     "dropout": 0,
@@ -12,7 +12,7 @@ CONFIG = {
     "n_cont": 6,
     "learning_rate": 3*(10**-5),
     "batchsize": 64,
-    "weight_decay": 0.05,
+    "weight_decay": 0.01,
     "lr_factor": 0.1,
     "lr_patience": 10,
     "threshold": 0.01,
