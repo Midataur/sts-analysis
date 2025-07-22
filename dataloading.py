@@ -97,7 +97,8 @@ class SimpleDataset(Dataset):
             tok_cards = tokenize_list(options, category="cards")
 
             # skip modded runs
-            if MISSING_TOKEN in tok_state or MISSING_TOKEN in tok_cards:
+            missing_token = tokenize(MISSING)
+            if missing_token in tok_state or missing_token in tok_cards:
                 continue
 
             state_cat.append(tok_state)
@@ -153,7 +154,7 @@ def get_dataset_and_loader(data_type, config, verbose=False):
         file_loc = f"{folder}/{data_type}.pt"
 
         if verbose:
-            print("Loading {data_type} datatset from file...")
+            print(f"Loading {data_type} datatset from file...")
 
         # check the data exists
         if f"{data_type}.pt" not in os.listdir(folder):

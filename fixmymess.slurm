@@ -51,7 +51,7 @@ module load CUDA/12.4.1
 
 # The job command(s):
 source ./venv/bin/activate
-python preprocess.py
+python fixmymess.py
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
 ##Job monitor command to list the resource usage

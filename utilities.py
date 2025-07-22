@@ -109,8 +109,11 @@ def runs_to_df(runs, threshold=0.01):
     return data
 
 def tokenize(item, category=None):
+    # deal with modded items
     if item not in VOCABULARY:
-        return VOCABULARY.index(MISSING_TOKEN)
+        if category == "cards":
+            return AUGMENTED_CARDS_LIST.index(MISSING)
+        return VOCABULARY.index(MISSING)
 
     # return special category token
     if category == "cards":
