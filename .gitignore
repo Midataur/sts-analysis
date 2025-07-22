@@ -8,3 +8,4 @@ run_data/train/*.json
 run_data/val/*.json
 datasets/*.pt
 *.zip
+*.sh
