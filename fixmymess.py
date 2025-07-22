@@ -18,7 +18,7 @@ for data_type in ["train", "val", "test"]:
 
     # replace the malformed tokens
     print("Fixing...")
-    dataset.card_choices[dataset.state_cat == MALFORMED] = CORRECT
+    dataset.card_choices[dataset.card_choices == MALFORMED] = CORRECT
 
     print("Saving...")
     # save the dataset
