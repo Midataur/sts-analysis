@@ -73,7 +73,7 @@ CONFIG = {
     "file_batchsize": 500,
 
     # legacy features to use
-    "legacy_features": ["full_vocab_output"]
+    "legacy_features": []#["full_vocab_output"]
 }
 
 assert CONFIG["n_embed"] % CONFIG["n_heads"] == 0

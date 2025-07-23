@@ -211,7 +211,7 @@ def extract_from_save(save, character, verbose=True):
         deck_version = card["id"]
 
         if card["upgrades"] > 0:
-            deck_version += f"+{card["upgrades"]}"
+            deck_version += f"+{card['upgrades']}"
         
         deck.append(deck_version)
 
