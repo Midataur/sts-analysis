@@ -4,7 +4,7 @@ if __name__ == "__main__":
 from training import train
 
 CONFIG = {
-    "modelname": "starter-5",
+    "modelname": "starter-6",
 
     # embedding dimension
     # good starting value: 402
@@ -21,20 +21,20 @@ CONFIG = {
 
     # number of blocks to have
     # higher means a deeper network
-    "n_blocks": 2,
+    "n_blocks": 4,
 
     # number of continuous variables
-    # decided emperically, should stay 6 unless games gets updated lol
+    # currently 6, might change
     "n_cont": 6,
 
     # good starting value: 3*10^-4
-    "learning_rate": 3*(10**-5), 
+    "learning_rate": 3*(10**-4), 
 
     # good starting value: 64
     "batchsize": 64, 
 
     # good starting value: 0.1
-    "weight_decay": 0.01, 
+    "weight_decay": 0.05, 
 
     # usually 0.1
     "lr_factor": 0.1, 
@@ -70,7 +70,10 @@ CONFIG = {
     "use_preprocessed_data": True,
 
     # amount of files to load in at once for processing, ram dependent
-    "file_batchsize": 500
+    "file_batchsize": 500,
+
+    # legacy features to use
+    "legacy_features": ["full_vocab_output"]
 }
 
 assert CONFIG["n_embed"] % CONFIG["n_heads"] == 0
