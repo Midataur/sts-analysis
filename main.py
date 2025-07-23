@@ -4,7 +4,7 @@ if __name__ == "__main__":
 from training import train
 
 CONFIG = {
-    "modelname": "starter-6",
+    "modelname": "starter-7",
 
     # embedding dimension
     # good starting value: 402
@@ -34,7 +34,7 @@ CONFIG = {
     "batchsize": 64, 
 
     # good starting value: 0.1
-    "weight_decay": 0.05, 
+    "weight_decay": 0.1, 
 
     # usually 0.1
     "lr_factor": 0.1, 
