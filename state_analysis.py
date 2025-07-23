@@ -202,3 +202,27 @@ def extract_states_and_choices(runs, verbose=True, strict=False):
                 continue
 
     return states, choices
+
+def extract_from_save(save, character, verbose=True):
+    # reconstruct the current deck
+    deck = []
+
+    for card in save["cards"]:
+        deck_version = card["id"]
+
+        if card["upgrades"] > 0:
+            deck_version += f"+{card["upgrades"]}"
+        
+        deck.append(deck_version)
+
+    return {
+        "ascension": save["ascension_level"],
+        "character": character,
+        "current_hp": save["current_health"],
+        "deck": deck,
+        "floor": save["floor_num"],
+        "gold": save["gold"],
+        "max_hp": save["max_health"],
+        "relics": save["relics"],
+        "victory": True # we want it to give us good reccomendations
+    }

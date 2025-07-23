@@ -69,6 +69,8 @@ class SimpleDataset(Dataset):
 
             # skip very long runs
             if len(cat_data) > max_cat_length and discard_too_long:
+                if verbose:
+                    print("Too long, skipping...")
                 continue
             
             cat_data = pad_cat_data(cat_data, max_cat_length)
@@ -88,7 +90,8 @@ class SimpleDataset(Dataset):
             
             # check for modded runs
             if len(choice["options"]) > MAX_OPTIONS_LENGTH:
-                print("Weirdly long options, skipping")
+                if verbose:
+                    print("Weirdly long options, skipping")
                 continue
 
             # get card choices
@@ -99,6 +102,8 @@ class SimpleDataset(Dataset):
             # skip modded runs
             missing_token = tokenize(MISSING)
             if missing_token in tok_state or missing_token in tok_cards:
+                if verbose:
+                    print("Missing token, skipping...")
                 continue
 
             state_cat.append(tok_state)
@@ -111,15 +116,13 @@ class SimpleDataset(Dataset):
         return state_cat, state_cont, card_choices, targets
 
 def create_dataset(data_type, config, verbose=False):
-    run_data_path = "./run_data"
-
     should_speak = verbose
 
     # do train states
     if should_speak:
         print(f"Loading {data_type} data...")
         
-    path = f"{run_data_path}/{data_type}"
+    path = f"./run_data/{data_type}"
     process_zips(path, verbose=should_speak)
     
     # load data in batches

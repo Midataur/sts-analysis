@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from torch.nn import functional as F
 from game_data import VOCABULARY, AUGMENTED_CARDS_LIST
+from dataloading import SimpleDataset
 
 class Head(nn.Module):
     def __init__(self, config):
@@ -122,12 +123,19 @@ class NQTransformer(nn.Module):
 
         # the output layer
         # projects the final vector down to the output dimension
-        self.lm_head = nn.Linear(n_embed, vocab_size, bias=True)
+
+        output_dim = card_count
+
+        legacy_features = config["legacy_features"]
+        if "full_vocab_output" in legacy_features:
+            output_dim = vocab_size
+
+        self.lm_head = nn.Linear(n_embed, output_dim, bias=True)
        
         # we shouldn't use this during training, only generation
         # this is because cross entropy loss already applies a softmax
         # and we don't want to apply that twice
-        self.softmax = nn.Softmax()
+        self.softmax = nn.Softmax(dim=1)
 
     def forward(self, cat, cont, choice):
         # get embeddings
@@ -149,6 +157,22 @@ class NQTransformer(nn.Module):
         # seems interesting
         x = torch.sum(x, axis=1) # (B, E)
 
-        logits = self.lm_head(x) #(B, vocab_size)
+        logits = self.lm_head(x) #(B, output_dim)
 
         return logits
+    
+    def gen_from_states(self, states, choices, config, return_logits=False):
+        # process the states
+        dataset = SimpleDataset(states, choices, config, verbose=False)
+
+        # get the prediction
+        cat_tensor = dataset.state_cat
+        cont_tensor = dataset.state_cont
+        choice_tensor = dataset.card_choices
+
+        logits = self(cat_tensor, cont_tensor, choice_tensor) # (B, output_dim)
+
+        if return_logits:
+            return logits
+
+        return self.softmax(logits)

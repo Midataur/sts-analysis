@@ -7,6 +7,7 @@ from tqdm import tqdm
 import os
 import json
 import gzip
+import base64
 
 def batched(iterable, n, *, strict=False):
     # batched('ABCDEFG', 3) → ABC DEF G
@@ -59,7 +60,11 @@ def extract_runs(data_path, files=None, verbose=True):
 
     # load files
     for file_name in tqdm(files, disable=not verbose, desc="Extracting runs"):
-        if file_name[-5:] != ".json":
+        if file_name[-5:] == ".json":
+            file_type = "json"
+        elif file_name[-4:] == ".run":
+            file_type = "run"
+        else:
             continue
 
         with open(f"{data_path}/{file_name}") as file:
@@ -70,9 +75,12 @@ def extract_runs(data_path, files=None, verbose=True):
                 print(e)
                 print("Skipping for now")
 
-            for game in data:
-                runs.append(game["event"])
-    
+            if file_type == "json":
+                for game in data:
+                    runs.append(game["event"])
+            elif file_type == "run":
+                runs.append(data)
+
     return runs
 
 def runs_to_df(runs, threshold=0.01):
@@ -111,6 +119,7 @@ def runs_to_df(runs, threshold=0.01):
 def tokenize(item, category=None):
     # deal with modded items
     if item not in VOCABULARY:
+        print(item)
         if category == "cards":
             return AUGMENTED_CARDS_LIST.index(MISSING)
         return VOCABULARY.index(MISSING)
@@ -137,3 +146,29 @@ def pad_cat_data(cat_data, max_cat_length):
 
     remaining = max_cat_length - len(cat_data)
     return cat_data + [EMPTY_TOKEN]*remaining
+
+# for some reason saves have this weird encryption
+# credit: https://gist.github.com/Kirill89/514edad0ac80af7dfc036871ccf0f877
+def read_save(file):
+    file_bytes = base64.b64decode(file.read())
+    
+    out = []
+    KEY = "key"
+
+    for pos, byte in enumerate(file_bytes):
+        out.append(chr(byte ^ ord(KEY[pos % len(KEY)])))
+    
+    return json.loads("".join(out))
+
+def get_current_save(saves_directory):
+    files = os.listdir(saves_directory)
+
+    for character in CHARACTER_LIST:
+        # only one character will have a real save file
+        if f"{character}.autosave" in files:
+            with open(f"{saves_directory}/{character}.autosave", "rb") as file:
+                save = read_save(file)
+        
+            return save, character
+    
+    raise Exception("No save found, is a run going?")
