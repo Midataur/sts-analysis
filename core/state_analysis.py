@@ -166,7 +166,7 @@ def reconstruct_state(run, floor, verbose=False):
                     elif upgraded in deck:
                         deck.remove(upgraded)
 
-    capped_floor = min(floor, run["floor_reached"])
+    capped_floor = min(floor, len(run["gold_per_floor"])-1)
 
     # deal with some edge cases:
     if (
@@ -199,13 +199,13 @@ def reconstruct_state(run, floor, verbose=False):
         "victory": run["victory"],
     }
 
-def extract_states(runs, verbose=True, strict=False):
+def extract_states(runs, verbose=True, strict=True):
     states = []
 
     for run in tqdm(runs, disable=not verbose, desc="Extracting states"):
-        if not run["is_ascension_mode"] or len(run["gold_per_floor"]) != run["floor_reached"]-1:
+        if not run["is_ascension_mode"]:
             continue
-        
+    
         for floor in range(run["floor_reached"]-1):
             try:
                 states.append(reconstruct_state(run, floor))
@@ -217,12 +217,12 @@ def extract_states(runs, verbose=True, strict=False):
 
     return states
 
-def extract_states_and_choices(runs, verbose=True, strict=False):
+def extract_states_and_choices(runs, verbose=True, strict=True):
     states = []
     choices = []
 
     for run in tqdm(runs, disable=not verbose, desc="Extracting states and choices"):
-        if not run["is_ascension_mode"] or len(run["gold_per_floor"]) != run["floor_reached"]-1:
+        if not run["is_ascension_mode"]:
             continue
         
         for choice in run["card_choices"]:

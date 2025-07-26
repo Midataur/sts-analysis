@@ -1,7 +1,7 @@
 from utilities import *
 from torch.utils.data import DataLoader, Dataset
 from torch import tensor, float32
-from state_analysis import extract_states_and_choices
+from state_analysis import extract_states_and_choices, extract_states
 import torch
 import os
 
@@ -234,7 +234,14 @@ def create_dataset(data_type, config, verbose=False):
 
     for batch in tqdm(batched(filenames, batchsize), disable=not should_speak, desc="Processing batches..."):
         runs = extract_runs(path, files=batch, verbose=should_speak)
-        states, choices = extract_states_and_choices(runs, verbose=should_speak)
+
+        if config["model_type"] == "skip-bot":
+            states, choices = extract_states_and_choices(runs, verbose=should_speak)
+        elif config["model_type"] == "v2":
+            states = extract_states(runs, verbose=should_speak)
+            choices = []
+        else:
+            raise Exception("Unknown model type")
 
         if dataset is None:
             dataset = DataSetType(states, config, choices=choices, verbose=should_speak)
@@ -245,7 +252,8 @@ def create_dataset(data_type, config, verbose=False):
 
 # allow proper loading of preprocessed datasets
 torch.serialization.add_safe_globals([
-    SimpleDataset
+    SkipBotDataset,
+    V2Dataset
 ])
 
 # data type can be train, val, or test
