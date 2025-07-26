@@ -230,7 +230,7 @@ class V2(nn.Module):
         raise Exception("Not implemented")
     
     def get_loss(self):
-        return nn.BCELoss()
+        return nn.BCEWithLogitsLoss()
 
 MODELS = {
     "skip-bot": SkipBot,

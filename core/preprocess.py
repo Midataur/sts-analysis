@@ -1,5 +1,5 @@
-from core.dataloading import create_dataset
-from core.main import CONFIG
+from dataloading import create_dataset
+from main import CONFIG
 
 FOLDER = CONFIG["PATH"]+"/datasets/"+CONFIG["model_type"]
 

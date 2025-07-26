@@ -6,6 +6,7 @@ model/*
 run_data/test/*.json
 run_data/train/*.json
 run_data/val/*.json
-datasets/*.pt
+datasets/skip-bot/*
+datasets/v2/*
 *.zip
 *.sh
