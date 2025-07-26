@@ -116,8 +116,6 @@ def train(config):
             optimizer.zero_grad()  # Zero the gradients
             outputs = model(*model_input)  # Forward pass
 
-            print(outputs, targets)
-
             loss = criterion(outputs, targets)  # Calculate the loss
             accelerator.backward(loss)  # Backward pass
             optimizer.step()  # Update weights

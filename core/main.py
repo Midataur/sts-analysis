@@ -1,5 +1,5 @@
 CONFIG = {
-    "modelname": "test-2",
+    "modelname": "test-3",
     "model_type": "v2",
 
     # embedding dimension
