@@ -2,6 +2,7 @@ from utilities import *
 from torch.utils.data import DataLoader, Dataset
 from torch import tensor, float32
 from state_analysis import extract_states_and_choices, extract_states
+from multiprocessing import Pool
 import torch
 import os
 
@@ -10,6 +11,13 @@ MAX_OPTIONS_LENGTH = 5
 class SimpleDataset(Dataset):
     def __init__(self, config):
         self.config = config
+
+        max_cat_length = config["max_cat_length"]
+        n_cont = config["n_cont"]
+
+        self.state_cat = torch.empty((0, max_cat_length), dtype=int)
+        self.state_cont = torch.empty((0, n_cont), dtype=float32)
+        self.targets = torch.empty((0, 1), dtype=int)
 
     def __len__(self):
         return len(self.state_cat)
@@ -26,27 +34,22 @@ class SimpleDataset(Dataset):
     def save(self, location):
         torch.save(self, location)
 
-    def append(self, states, verbose=False):
+    def append(self, states, verbose=False, **kwargs):
         state_cat, state_cont, targets = self.process_data(states, verbose=verbose)
 
         new_state_cat = tensor(state_cat, dtype=int)
         new_state_cont = tensor(state_cont, dtype=float32)
-        new_targets = tensor(targets, dtype=int)
+        new_targets = tensor(targets, dtype=int).reshape((-1,1))
 
         self.state_cat = torch.cat((self.state_cat, new_state_cat))
         self.state_cont = torch.cat((self.state_cont, new_state_cont))
         self.targets = torch.cat((self.targets, new_targets))
 
 class SkipBotDataset(SimpleDataset):
-    def __init__(self, states, config, choices=None, verbose=False, *args, **kwargs):
+    def __init__(self, config):
         super().__init__(config)
 
-        state_cat, state_cont, card_choices, targets = self.process_data(states, choices, verbose=verbose)
-      
-        self.state_cat = tensor(state_cat, dtype=int)
-        self.state_cont = tensor(state_cont, dtype=float32)
-        self.targets = tensor(targets, dtype=int)
-        self.card_choices = tensor(card_choices, dtype=float32)
+        self.card_choices = torch.empty((0, MAX_OPTIONS_LENGTH), dtype=float32)
         
     def __getitem__(self, index):
         sample = (
@@ -64,7 +67,7 @@ class SkipBotDataset(SimpleDataset):
         new_state_cat = tensor(state_cat, dtype=int)
         new_state_cont = tensor(state_cont, dtype=float32)
         new_card_choices = tensor(card_choices, dtype=int)
-        new_targets = tensor(targets, dtype=int)
+        new_targets = tensor(targets, dtype=int).reshape((-1,1))
 
         self.state_cat = torch.cat((self.state_cat, new_state_cat))
         self.state_cont = torch.cat((self.state_cont, new_state_cont))
@@ -139,15 +142,6 @@ class SkipBotDataset(SimpleDataset):
         return state_cat, state_cont, card_choices, targets
 
 class V2Dataset(SimpleDataset):
-    def __init__(self, states, config, verbose=False, *args, **kwargs):
-        super().__init__(config)
-
-        state_cat, state_cont, targets = self.process_data(states, verbose=verbose)
-      
-        self.state_cat = tensor(state_cat, dtype=int)
-        self.state_cont = tensor(state_cont, dtype=float32)
-        self.targets = tensor(targets, dtype=float32)
-
     def process_data(self, states, verbose=False):
         state_cat = []
         state_cont = []
@@ -213,6 +207,28 @@ DATASETS = {
     "v2": V2Dataset
 }
 
+class Processor:
+    def __init__(self, path, dataset, config):
+        self.path = path
+        self.dataset = dataset
+        self.config = config
+
+    def process_batch(self, batch):
+        print(f"Extracting runs for {batch[0]} batch...")
+        runs = extract_runs(self.path, files=batch, verbose=False)
+
+        if self.config["model_type"] == "skip-bot":
+            states, choices = extract_states_and_choices(runs, verbose=False)
+        elif self.config["model_type"] == "v2":
+            print(f"Extracting states for {batch[0]} batch...")
+            states = extract_states(runs, verbose=False)
+            choices = []
+        else:
+            raise Exception("Unknown model type")
+        
+        self.dataset.append(states, choices=choices, verbose=False)
+        print(f"Loaded {batch[0]} batch!")
+
 def create_dataset(data_type, config, verbose=False):
     DataSetType = DATASETS[config["model_type"]]
 
@@ -230,23 +246,13 @@ def create_dataset(data_type, config, verbose=False):
     batchsize = config["file_batchsize"]
     filenames = os.listdir(path)
 
-    dataset = None
+    dataset = DataSetType(config)
 
-    for batch in tqdm(batched(filenames, batchsize), disable=not should_speak, desc="Processing batches..."):
-        runs = extract_runs(path, files=batch, verbose=should_speak)
+    processor = Processor(path, dataset, config)
 
-        if config["model_type"] == "skip-bot":
-            states, choices = extract_states_and_choices(runs, verbose=should_speak)
-        elif config["model_type"] == "v2":
-            states = extract_states(runs, verbose=should_speak)
-            choices = []
-        else:
-            raise Exception("Unknown model type")
-
-        if dataset is None:
-            dataset = DataSetType(states, config, choices=choices, verbose=should_speak)
-        else:
-            dataset.append(states, choices, verbose=should_speak)
+    print("Spinning up processes...")
+    with Pool(config["process_count"]) as p:
+        p.map(processor.process_batch, batched(filenames, batchsize))
     
     return dataset
 

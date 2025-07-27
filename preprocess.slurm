@@ -10,17 +10,17 @@
 #SBATCH --nodes=1
 
 # The name of the job:
-#SBATCH --job-name="sts-training"
+#SBATCH --job-name="sts-preprocess"
 
 # The project ID which this job should run under:
 #SBATCH --account="punim2163"
 
 # Maximum number of tasks/CPU cores used by the job:
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=6
+#SBATCH --ntasks=100
+#SBATCH --cpus-per-task=100
 
 # Number of GPUs requested per node:
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:0
 # The amount of memory in megabytes per node:
 #SBATCH --mem=800000
 
