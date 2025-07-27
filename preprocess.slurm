@@ -16,8 +16,8 @@
 #SBATCH --account="punim2163"
 
 # Maximum number of tasks/CPU cores used by the job:
-#SBATCH --ntasks=80
-#SBATCH --cpus-per-task=80
+#SBATCH --ntasks=100
+#SBATCH --cpus-per-task=1
 
 # The amount of memory in megabytes per node:
 #SBATCH --mem=800000
