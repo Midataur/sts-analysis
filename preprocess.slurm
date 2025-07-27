@@ -3,7 +3,7 @@
 # Mon Jan 08 2024 21:45:49 GMT+1100 (Australian Eastern Daylight Time)
 
 # Partition for the job:
-#SBATCH --partition=fos-gpu-l40s
+#SBATCH --partition=sapphire
 #SBATCH --qos=fos
 
 # Multithreaded (SMP) job: must run on one node 
@@ -19,8 +19,6 @@
 #SBATCH --ntasks=100
 #SBATCH --cpus-per-task=100
 
-# Number of GPUs requested per node:
-#SBATCH --gres=gpu:0
 # The amount of memory in megabytes per node:
 #SBATCH --mem=800000
 
