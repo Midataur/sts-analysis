@@ -194,6 +194,13 @@ class V2Dataset(SimpleDataset):
                     print("Missing token, skipping...")
                 continue
 
+            # prevents a weird error
+            # shouldn't be possible, but apparently happened at least once
+            if None in tok_state:
+                print("\n\nWEIRD STATE FOUND\n\n")
+                print("\n\n",state,"\n\n")
+                continue
+
             state_cat.append(tok_state)
             state_cont.append(cont_data)
 
