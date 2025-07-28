@@ -187,18 +187,15 @@ class V2Dataset(SimpleDataset):
                 state["n_skills"]
             ]
 
+            # chuck bad data
+            if None in cont_data:
+                continue
+
             # skip modded runs
             missing_token = tokenize(MISSING)
             if missing_token in tok_state:
                 if verbose:
                     print("Missing token, skipping...")
-                continue
-
-            # prevents a weird error
-            # shouldn't be possible, but apparently happened at least once
-            if None in tok_state:
-                print("\n\nWEIRD STATE FOUND\n\n")
-                print("\n\n",state,"\n\n")
                 continue
 
             state_cat.append(tok_state)
