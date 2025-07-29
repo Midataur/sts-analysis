@@ -66,10 +66,7 @@ CONFIG = {
     "use_preprocessed_data": True,
 
     # amount of files to load in at once for processing, ram dependent
-    "file_batchsize": 1,
-    
-    # amount of workers to use for data processing
-    "process_count": 100
+    "file_batchsize": 1
 }
 
 assert CONFIG["n_embed"] % CONFIG["n_heads"] == 0

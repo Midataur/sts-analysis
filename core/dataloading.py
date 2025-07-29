@@ -255,7 +255,7 @@ def create_dataset(data_type, config, verbose=False):
     processor = Processor(path, dataset, config)
 
     print("Spinning up processes...")
-    with Pool(config["process_count"]) as p:
+    with Pool() as p:
         p.map(processor.process_batch, batched(filenames, batchsize))
     
     return dataset
