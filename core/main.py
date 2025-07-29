@@ -69,7 +69,7 @@ CONFIG = {
     "file_batchsize": 1,
     
     # amount of workers to use for data processing
-    "process_count": 50
+    "process_count": 100
 }
 
 assert CONFIG["n_embed"] % CONFIG["n_heads"] == 0
