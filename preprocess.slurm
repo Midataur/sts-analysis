@@ -17,7 +17,7 @@
 
 # Maximum number of tasks/CPU cores used by the job:
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=100
+#SBATCH --cpus-per-task=10
 
 # The amount of memory in megabytes per node:
 #SBATCH --mem=800000
