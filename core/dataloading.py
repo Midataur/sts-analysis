@@ -2,7 +2,7 @@ from utilities import *
 from torch.utils.data import DataLoader, Dataset
 from torch import tensor, float32
 from state_analysis import extract_states_and_choices, extract_states
-from multiprocessing import Pool
+import multiprocessing as mp
 import torch
 import os
 
@@ -251,11 +251,14 @@ def create_dataset(data_type, config, verbose=False):
     filenames = os.listdir(path)
 
     dataset = DataSetType(config)
-
     processor = Processor(path, dataset, config)
 
+    # ensures consistency across machines
+    mp.set_start_method("spawn")
+
     print("Spinning up processes...")
-    with Pool() as p:
+    with mp.Pool() as p:
+        print("Mapping...")
         p.map(processor.process_batch, batched(filenames, batchsize))
     
     return dataset
