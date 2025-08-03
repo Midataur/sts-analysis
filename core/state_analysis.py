@@ -199,7 +199,7 @@ def reconstruct_state(run, floor, verbose=False):
         "victory": run["victory"],
     }
 
-def extract_states(runs, verbose=True, strict=True):
+def extract_states(runs, verbose=True, strict=False):
     states = []
 
     for run in tqdm(runs, disable=not verbose, desc="Extracting states"):
@@ -212,7 +212,7 @@ def extract_states(runs, verbose=True, strict=True):
             except Exception as e:
                 if strict:
                     raise e
-                print("Error, ignoring")
+                print(f"Error, ignoring {e}")
                 continue
 
     return states
