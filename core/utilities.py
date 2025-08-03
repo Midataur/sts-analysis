@@ -9,7 +9,7 @@ import json
 import gzip
 import base64
 
-def batched(iterable, n, *, strict=False):
+def batched(iterable, n, *args, strict=False):
     # batched('ABCDEFG', 3) → ABC DEF G
     if n < 1:
         raise ValueError('n must be at least one')
@@ -178,3 +178,7 @@ def get_current_save(saves_directory):
             return save, character
     
     raise Exception("No save found, is a run going?")
+
+def iterate_queue(queue):
+    while not queue.empty():
+        yield queue.get()

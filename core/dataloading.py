@@ -37,6 +37,10 @@ class SimpleDataset(Dataset):
     def append(self, states, verbose=False, **kwargs):
         state_cat, state_cont, targets = self.process_data(states, verbose=verbose)
 
+        self.raw_append(state_cat, state_cont, targets)
+    
+    # assumes the data has already been processed
+    def raw_append(self, state_cat, state_cont, targets):
         new_state_cat = tensor(state_cat, dtype=int)
         new_state_cont = tensor(state_cont, dtype=float32)
         new_targets = tensor(targets, dtype=int).reshape((-1,1))
@@ -64,6 +68,10 @@ class SkipBotDataset(SimpleDataset):
     def append(self, states, choices, verbose=False):
         state_cat, state_cont, card_choices, targets = self.process_data(states, choices, verbose)
 
+        self.raw_append(state_cat, state_cont, card_choices, targets)
+    
+    # assumes the data has already been processed
+    def raw_append(self, state_cont, state_cat, card_choices, targets):
         new_state_cat = tensor(state_cat, dtype=int)
         new_state_cont = tensor(state_cont, dtype=float32)
         new_card_choices = tensor(card_choices, dtype=int)
@@ -142,7 +150,7 @@ class SkipBotDataset(SimpleDataset):
         return state_cat, state_cont, card_choices, targets
 
 class V2Dataset(SimpleDataset):
-    def process_data(self, states, verbose=False):
+    def process_data(self, states, verbose=False, **kwargs):
         state_cat = []
         state_cont = []
         targets = []
@@ -211,27 +219,34 @@ DATASETS = {
     "v2": V2Dataset
 }
 
-class Processor:
-    def __init__(self, path, dataset, config):
+class Processor():
+    def __init__(self, config, path, dataset):
+        self.config = config
         self.path = path
         self.dataset = dataset
-        self.config = config
 
     def process_batch(self, batch):
-        print(f"Extracting runs for {batch[0]} batch...")
+        batch_id = batch[0]
+        print(f"1. Extracting runs for {batch_id} batch...")
         runs = extract_runs(self.path, files=batch, verbose=False)
 
         if self.config["model_type"] == "skip-bot":
             states, choices = extract_states_and_choices(runs, verbose=False)
         elif self.config["model_type"] == "v2":
-            print(f"Extracting states for {batch[0]} batch...")
+            print(f"2. Extracting states for {batch_id} batch...")
             states = extract_states(runs, verbose=False)
             choices = []
         else:
             raise Exception("Unknown model type")
         
-        self.dataset.append(states, choices=choices, verbose=False)
-        print(f"Loaded {batch[0]} batch!")
+        print(f"3. Loaded {batch_id} batch!")
+        print(f"4. Processing states and choices for {batch_id} batch...")
+        
+        processed = self.dataset.process_data(states=states, choices=choices, verbose=False)
+        
+        print(f"5. Processed for batch {batch_id}!")
+
+        return processed, batch_id
 
 def init_worker():
     """Executed once in each worker process upon startup."""
@@ -255,12 +270,15 @@ def create_dataset(data_type, config, verbose=False):
     filenames = os.listdir(path)
 
     dataset = DataSetType(config)
-    processor = Processor(path, dataset, config)
+    processor = Processor(config, path, dataset)
 
+    # extract all the states
     print("Spinning up processes...")
     with mp.Pool(initializer=init_worker) as p:
         print("Mapping...")
-        p.map(processor.process_batch, batched(filenames, batchsize))
+        for processed, batch_name in p.imap_unordered(processor.process_batch, batched(filenames, batchsize)):
+            print(f"6. Appending {batch_name} batch data...")
+            dataset.raw_append(*processed)
     
     return dataset
 
