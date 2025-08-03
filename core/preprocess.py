@@ -1,6 +1,7 @@
 from dataloading import create_dataset
 import multiprocessing as mp
 from main import CONFIG
+import torch
 import sys
 
 FOLDER = CONFIG["PATH"]+"/datasets/"+CONFIG["model_type"]
@@ -11,6 +12,8 @@ if __name__ == "__main__":
 
     # Configure output for immediate flushing
     sys.stdout.reconfigure(line_buffering=True)
+
+    torch.set_default_device("cpu")
 
     for data_type in ["train", "val", "test"]:
         print(f"Creating {data_type}...")
