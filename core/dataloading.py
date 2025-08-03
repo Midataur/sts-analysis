@@ -278,12 +278,8 @@ def create_dataset(data_type, config, verbose=False):
             processor.process_batch,
             filenames
         ):
-            print(f"6. Appending {batch_id} batch...")
-            try:
-                dataset.raw_append(*processed)
-            except Exception as e:
-                print(f"Got error {e}, skipping...")
-                0/0
+            #print(f"6. Appending {batch_id} batch...")
+            dataset.raw_append(*processed)
     
     return dataset
 
