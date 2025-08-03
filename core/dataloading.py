@@ -225,28 +225,27 @@ class Processor():
         self.path = path
         self.dataset = dataset
 
-    def process_batch(self, batch):
-        batch_id = batch[0]
-        print(f"1. Extracting runs for {batch_id} batch...")
-        runs = extract_runs(self.path, files=batch, verbose=False)
+    def process_batch(self, filename):
+        print(f"1. Extracting runs for {filename} batch...")
+        runs = extract_runs(self.path, files=[filename], verbose=False)
 
         if self.config["model_type"] == "skip-bot":
             states, choices = extract_states_and_choices(runs, verbose=False)
         elif self.config["model_type"] == "v2":
-            print(f"2. Extracting states for {batch_id} batch...")
+            print(f"2. Extracting states for {filename} batch...")
             states = extract_states(runs, verbose=False)
             choices = []
         else:
             raise Exception("Unknown model type")
         
-        print(f"3. Loaded {batch_id} batch!")
-        print(f"4. Processing states and choices for {batch_id} batch...")
+        print(f"3. Loaded {filename} batch!")
+        print(f"4. Processing states and choices for {filename} batch...")
         
         processed = self.dataset.process_data(states=states, choices=choices, verbose=False)
         
-        print(f"5. Processed for batch {batch_id}!")
+        print(f"5. Processed for batch {filename}!")
 
-        return processed, batch_id
+        return processed, filename
 
 def init_worker():
     """Executed once in each worker process upon startup."""
@@ -266,25 +265,21 @@ def create_dataset(data_type, config, verbose=False):
     
     # load data in batches
     # batch size may be really large
-    batchsize = config["file_batchsize"]
     filenames = os.listdir(path)
 
     dataset = DataSetType(config)
     processor = Processor(config, path, dataset)
 
-    queue = mp.Queue()
-
     # extract all the states
     print("Spinning up processes...")
     with mp.Pool(initializer=init_worker) as p:
         print("Mapping...")
-        for processed, batch_id in p.imap_unordered(processor.process_batch, batched(filenames, batchsize)):
-            print(f"Putting {batch_id} batch")
-            queue.put(processed)
-    
-    print("Appending...")
-    for processed in iterate_queue(queue):
-        dataset.raw_append(*processed)
+        for processed, batch_id in p.imap_unordered(
+            processor.process_batch,
+            filenames
+        ):
+            print(f"6. Appending {batch_id} batch...")
+            dataset.raw_append(*processed)
     
     return dataset
 

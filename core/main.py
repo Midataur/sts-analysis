@@ -63,10 +63,7 @@ CONFIG = {
     # if true, does that
     # if false, processes the data fresh
     # true assumes you have actually run preprocess.py
-    "use_preprocessed_data": True,
-
-    # amount of files to load in at once for processing, ram dependent
-    "file_batchsize": 1
+    "use_preprocessed_data": True
 }
 
 assert CONFIG["n_embed"] % CONFIG["n_heads"] == 0
