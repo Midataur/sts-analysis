@@ -253,9 +253,6 @@ def create_dataset(data_type, config, verbose=False):
     dataset = DataSetType(config)
     processor = Processor(path, dataset, config)
 
-    # ensures consistency across machines
-    mp.set_start_method("spawn")
-
     print("Spinning up processes...")
     with mp.Pool() as p:
         print("Mapping...")
