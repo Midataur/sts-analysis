@@ -270,6 +270,8 @@ def create_dataset(data_type, config, verbose=False):
     dataset = DataSetType(config)
     processor = Processor(config, path, dataset)
 
+    print("Start method:", mp.get_start_method())
+
     # extract all the states
     print("Spinning up processes...")
     with mp.Pool(initializer=init_worker) as p:
