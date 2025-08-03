@@ -246,7 +246,7 @@ class Processor():
         
         print(f"5. Processed for batch {batch_id}!")
 
-        return processed, batch_id
+        return processed
 
 def init_worker():
     """Executed once in each worker process upon startup."""
@@ -272,19 +272,18 @@ def create_dataset(data_type, config, verbose=False):
     dataset = DataSetType(config)
     processor = Processor(config, path, dataset)
 
-    lock = mp.Lock()
+    queue = mp.Queue()
 
     # extract all the states
     print("Spinning up processes...")
     with mp.Pool(initializer=init_worker) as p:
         print("Mapping...")
-        for processed, batch_name in p.imap_unordered(processor.process_batch, batched(filenames, batchsize)):
-            lock.acquire()
-            try:
-                print(f"6. Appending {batch_name} batch data...")
-                dataset.raw_append(*processed)
-            finally:
-                lock.release()
+        for processed in p.imap_unordered(processor.process_batch, batched(filenames, batchsize)):
+            queue.put(processed)
+    
+    print("Appending...")
+    for processed in iterate_queue(queue):
+        dataset.raw_append(*processed)
     
     return dataset
 
