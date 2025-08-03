@@ -8,6 +8,7 @@ import os
 import json
 import gzip
 import base64
+import sys
 
 def batched(iterable, n, *args, strict=False):
     # batched('ABCDEFG', 3) → ABC DEF G
@@ -182,3 +183,8 @@ def get_current_save(saves_directory):
 def iterate_queue(queue):
     while not queue.empty():
         yield queue.get()
+
+def true_print(string):
+    """Print + flush stdout"""
+    print(string)
+    sys.stdout.flush()

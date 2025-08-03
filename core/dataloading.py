@@ -3,7 +3,6 @@ from torch.utils.data import DataLoader, Dataset
 from torch import tensor, float32
 from state_analysis import extract_states_and_choices, extract_states
 import multiprocessing as mp
-import sys
 import torch
 import os
 
@@ -227,8 +226,7 @@ class Processor():
         self.dataset = dataset
 
     def process_batch(self, filename):
-        print(f"1. Extracting runs for {filename} batch...")
-        sys.stdout.flush()
+        true_print(f"1. Extracting runs for {filename} batch...")
         runs = extract_runs(self.path, files=[filename], verbose=False)
 
         if self.config["model_type"] == "skip-bot":
@@ -240,12 +238,12 @@ class Processor():
         else:
             raise Exception("Unknown model type")
         
-        print(f"3. Loaded {filename} batch!")
-        print(f"4. Processing states and choices for {filename} batch...")
+        true_print(f"3. Loaded {filename} batch!")
+        true_print(f"4. Processing states and choices for {filename} batch...")
         
         processed = self.dataset.process_data(states=states, choices=choices, verbose=False)
         
-        print(f"5. Processed for batch {filename}!")
+        true_print(f"5. Processed for batch {filename}!")
 
         return processed, filename
 
