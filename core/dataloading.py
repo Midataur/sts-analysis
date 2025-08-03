@@ -272,13 +272,19 @@ def create_dataset(data_type, config, verbose=False):
     dataset = DataSetType(config)
     processor = Processor(config, path, dataset)
 
+    lock = mp.Lock()
+
     # extract all the states
     print("Spinning up processes...")
     with mp.Pool(initializer=init_worker) as p:
         print("Mapping...")
         for processed, batch_name in p.imap_unordered(processor.process_batch, batched(filenames, batchsize)):
-            print(f"6. Appending {batch_name} batch data...")
-            dataset.raw_append(*processed)
+            lock.acquire()
+            try:
+                print(f"6. Appending {batch_name} batch data...")
+                dataset.raw_append(*processed)
+            finally:
+                lock.release()
     
     return dataset
 
