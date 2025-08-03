@@ -17,3 +17,4 @@ if __name__ == "__main__":
         dataset = create_dataset(data_type, CONFIG, verbose=True)
         print(f"Saving {data_type}...")
         dataset.save(f"{FOLDER}/{data_type}.pt")
+        print(f"\nSaved {data_type}\n")
