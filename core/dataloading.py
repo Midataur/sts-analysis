@@ -233,6 +233,10 @@ class Processor:
         self.dataset.append(states, choices=choices, verbose=False)
         print(f"Loaded {batch[0]} batch!")
 
+def init_worker():
+    """Executed once in each worker process upon startup."""
+    print(f"Worker PID {mp.current_process().pid} initialized", flush=True)
+
 def create_dataset(data_type, config, verbose=False):
     DataSetType = DATASETS[config["model_type"]]
 
@@ -254,7 +258,7 @@ def create_dataset(data_type, config, verbose=False):
     processor = Processor(path, dataset, config)
 
     print("Spinning up processes...")
-    with mp.Pool() as p:
+    with mp.Pool(initializer=init_worker) as p:
         print("Mapping...")
         p.map(processor.process_batch, batched(filenames, batchsize))
     

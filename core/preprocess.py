@@ -1,12 +1,16 @@
 from dataloading import create_dataset
 import multiprocessing as mp
 from main import CONFIG
+import sys
 
 FOLDER = CONFIG["PATH"]+"/datasets/"+CONFIG["model_type"]
 
 if __name__ == "__main__":
     # ensures consistency across machines
     mp.set_start_method("spawn")
+
+    # Configure output for immediate flushing
+    sys.stdout.reconfigure(line_buffering=True)
 
     for data_type in ["train", "val", "test"]:
         print(f"Creating {data_type}...")
