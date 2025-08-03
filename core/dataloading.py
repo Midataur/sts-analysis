@@ -272,7 +272,7 @@ def create_dataset(data_type, config, verbose=False):
 
     # extract all the states
     print("Spinning up processes...")
-    with mp.Pool(initializer=init_worker) as p:
+    with mp.Pool(1, initializer=init_worker) as p:
         print("Mapping...")
         for processed, batch_id in p.imap_unordered(
             processor.process_batch,
