@@ -246,7 +246,7 @@ class Processor():
         
         print(f"5. Processed for batch {batch_id}!")
 
-        return processed
+        return processed, batch_id
 
 def init_worker():
     """Executed once in each worker process upon startup."""
@@ -278,7 +278,8 @@ def create_dataset(data_type, config, verbose=False):
     print("Spinning up processes...")
     with mp.Pool(initializer=init_worker) as p:
         print("Mapping...")
-        for processed in p.imap_unordered(processor.process_batch, batched(filenames, batchsize)):
+        for processed, batch_id in p.imap_unordered(processor.process_batch, batched(filenames, batchsize)):
+            print(f"Putting {batch_id} batch")
             queue.put(processed)
     
     print("Appending...")
