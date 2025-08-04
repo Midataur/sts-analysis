@@ -45,9 +45,19 @@ class SimpleDataset(Dataset):
         new_state_cont = tensor(state_cont, dtype=float32)
         new_targets = tensor(targets, dtype=int).reshape((-1,1))
 
+        # probably overkill but ah well
+        new_state_cat._fix_weakref()
+        new_state_cont._fix_weakref()
+        new_targets._fix_weakref()
+
         self.state_cat = torch.cat((self.state_cat, new_state_cat))
         self.state_cont = torch.cat((self.state_cont, new_state_cont))
         self.targets = torch.cat((self.targets, new_targets))
+
+        # probably overkill but ah well
+        self.state_cat._fix_weakref()
+        self.state_cont._fix_weakref()
+        self.targets._fix_weakref()
 
 class SkipBotDataset(SimpleDataset):
     def __init__(self, config):
@@ -212,11 +222,6 @@ class V2Dataset(SimpleDataset):
             # get target
             targets.append(state["victory"])
         
-        # unsure when to do this, so i'll do it a bunch lol
-        state_cat._fix_weakref()
-        state_cont._fix_weakref()
-        targets._fix_weakref()
-
         return state_cat, state_cont, targets
 
 DATASETS = {
@@ -284,10 +289,6 @@ def create_dataset(data_type, config, verbose=False):
             filenames
         ):
             print(f"6. Appending {batch_id} batch...")
-
-            # fix weakrefs, probably
-            for tensor in processed:
-                tensor._fix_weakref()
 
             dataset.raw_append(*processed)
     
