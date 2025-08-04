@@ -212,6 +212,11 @@ class V2Dataset(SimpleDataset):
             # get target
             targets.append(state["victory"])
         
+        # unsure when to do this, so i'll do it a bunch lol
+        state_cat._fix_weakref()
+        state_cont._fix_weakref()
+        targets._fix_weakref()
+
         return state_cat, state_cont, targets
 
 DATASETS = {
@@ -272,13 +277,18 @@ def create_dataset(data_type, config, verbose=False):
 
     # extract all the states
     print("Spinning up processes...")
-    with mp.Pool(1, initializer=init_worker) as p:
+    with mp.Pool(initializer=init_worker) as p:
         print("Mapping...")
         for processed, batch_id in p.imap_unordered(
             processor.process_batch,
             filenames
         ):
             print(f"6. Appending {batch_id} batch...")
+
+            # fix weakrefs, probably
+            for tensor in processed:
+                tensor._fix_weakref()
+
             dataset.raw_append(*processed)
     
     return dataset
