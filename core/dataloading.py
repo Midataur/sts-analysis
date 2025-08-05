@@ -280,6 +280,8 @@ def create_dataset(data_type, config, verbose=False):
     dataset = DataSetType(config)
     processor = Processor(config, path, dataset)
 
+    queue = mp.Queue()
+
     # extract all the states
     print("Spinning up processes...")
     with mp.Pool(initializer=init_worker) as p:
@@ -288,9 +290,12 @@ def create_dataset(data_type, config, verbose=False):
             processor.process_batch,
             filenames
         ):
-            print(f"6. Appending {batch_id} batch...")
-
-            dataset.raw_append(*processed)
+            print(f"6. Queueing {batch_id} batch...")
+            queue.put(processed)
+    
+    print("Appending all the queued things...")
+    for processed in iterate_queue(queue):
+        dataset.raw_append(*processed)
     
     return dataset
 
