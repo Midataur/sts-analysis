@@ -20,7 +20,7 @@
 #SBATCH --cpus-per-task=100
 
 # The amount of memory in megabytes per node:
-#SBATCH --mem=800000
+#SBATCH --mem=977000
 
 # Use this email address:
 #SBATCH --mail-user=mpetschack@student.unimelb.edu.au
