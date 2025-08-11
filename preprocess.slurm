@@ -3,7 +3,7 @@
 # Mon Jan 08 2024 21:45:49 GMT+1100 (Australian Eastern Daylight Time)
 
 # Partition for the job:
-#SBATCH --partition=sapphire
+#SBATCH --partition=bigmem
 #SBATCH --qos=fos
 
 # Multithreaded (SMP) job: must run on one node 
@@ -17,10 +17,10 @@
 
 # Maximum number of tasks/CPU cores used by the job:
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=100
+#SBATCH --cpus-per-task=70
 
 # The amount of memory in megabytes per node:
-#SBATCH --mem=977000
+#SBATCH --mem=2970000
 
 # Use this email address:
 #SBATCH --mail-user=mpetschack@student.unimelb.edu.au
@@ -34,7 +34,7 @@
 #SBATCH --mail-type=END
 
 # The maximum running time of the job in days-hours:mins:sec
-#SBATCH --time=4-0:0:00
+#SBATCH --time=5-0:0:00
 
 # check that the script is launched with sbatch
 if [ "x$SLURM_JOB_ID" == "x" ]; then
