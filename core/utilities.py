@@ -75,6 +75,7 @@ def extract_runs(data_path, files=None, verbose=True):
                 print(f"While reading {data_path}/{file_name} the following error was encountered:")
                 print(e)
                 print("Skipping for now")
+                continue
 
             if file_type == "json":
                 for game in data:
