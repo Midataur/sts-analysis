@@ -9,7 +9,7 @@ CONFIG = {
     # number of attention heads:
     # good starting value: 6
     # n_embed % n_heads must be 0
-    "n_heads": 6,
+    "n_heads": 4,
 
     # dropout factor to use
     # i usually set to zero
