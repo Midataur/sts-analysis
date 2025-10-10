@@ -17,7 +17,7 @@ CONFIG = {
 
     # number of blocks to have
     # higher means a deeper network
-    "n_blocks": 4,
+    "n_blocks": 6,
 
     # number of continuous variables
     # currently 12, may change
@@ -27,7 +27,7 @@ CONFIG = {
     "learning_rate": 3*(10**-4), 
 
     # good starting value: 64
-    "batchsize": 64, 
+    "batchsize": 256, 
 
     # good starting value: 0.1
     "weight_decay": 0.1, 
