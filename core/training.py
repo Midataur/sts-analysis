@@ -117,7 +117,7 @@ def train(config):
             optimizer.zero_grad()  # Zero the gradients
             outputs = model(*model_input)  # Forward pass
 
-            loss = criterion(outputs, targets)  # Calculate the loss
+            loss = criterion(outputs, targets.float())  # Calculate the loss
             accelerator.backward(loss)  # Backward pass
             optimizer.step()  # Update weights
 
@@ -158,7 +158,7 @@ def train(config):
                 total_accuracy += accuracy
 
                 # Calculate the val loss
-                loss = criterion(all_outputs, all_targets)
+                loss = criterion(all_outputs, all_targets.float())
                 total_loss += loss.item()
                 num_batches += 1
 
