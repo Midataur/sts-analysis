@@ -112,6 +112,7 @@ def train(config):
         for batch in tqdm(train_dataloader, disable=not accelerator.is_local_main_process):
             # get input and targets
             model_input, targets = batch[:-1], batch[-1]
+            targets = targets.reshape(-1) # fix tensor shape (specific to this project)
 
             optimizer.zero_grad()  # Zero the gradients
             outputs = model(*model_input)  # Forward pass
@@ -145,6 +146,8 @@ def train(config):
             for batch in tqdm(val_dataloader, disable=not accelerator.is_local_main_process):
                 # get input and targets
                 model_input, targets = batch[:-1], batch[-1]
+
+                targets = targets.reshape(-1) # fix tensor shape (specific to this project)
 
                 outputs = model(*model_input)
 

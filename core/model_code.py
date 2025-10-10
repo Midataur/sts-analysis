@@ -168,12 +168,12 @@ class SkipBot(nn.Module):
         if return_logits:
             return logits
 
-        return self.softmax(logits) 
+        return self.softmax(logits)
     
     def get_loss(self):
         return nn.CrossEntropyLoss()
 
-# behold, my weird bespoke not-quite-a transformer
+# behold, my weird bespoke not-quite-a transformer (2nd edition)
 class V2(nn.Module):
     def __init__(self, config, *args):
         super().__init__()
