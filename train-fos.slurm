@@ -20,7 +20,7 @@
 #SBATCH --cpus-per-task=6
 
 # Number of GPUs requested per node:
-#SBATCH --gres=gpu:4
+#SBATCH --gres=gpu:3
 # The amount of memory in megabytes per node:
 #SBATCH --mem=700000
 
@@ -51,7 +51,7 @@ module load CUDA/12.4.1
 
 # The job command(s):
 source ./venv/bin/activate
-CUDA_LAUNCH_BLOCKING=1 accelerate launch main.py
+CUDA_LAUNCH_BLOCKING=1 accelerate launch ./core/main.py
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
 ##Job monitor command to list the resource usage

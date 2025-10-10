@@ -1,5 +1,5 @@
 CONFIG = {
-    "modelname": "test-3",
+    "modelname": "ipray-1",
     "model_type": "v2",
 
     # embedding dimension
