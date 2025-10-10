@@ -9,7 +9,7 @@ CONFIG = {
     # number of attention heads:
     # good starting value: 6
     # n_embed % n_heads must be 0
-    "n_heads": 4,
+    "n_heads": 6,
 
     # dropout factor to use
     # i usually set to zero
@@ -17,7 +17,7 @@ CONFIG = {
 
     # number of blocks to have
     # higher means a deeper network
-    "n_blocks": 6,
+    "n_blocks": 4,
 
     # number of continuous variables
     # currently 12, may change
