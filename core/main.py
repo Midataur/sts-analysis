@@ -27,7 +27,7 @@ CONFIG = {
     "learning_rate": 3*(10**-4), 
 
     # good starting value: 64
-    "batchsize": 256, 
+    "batchsize": 512, 
 
     # good starting value: 0.1
     "weight_decay": 0.1, 
