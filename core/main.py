@@ -1,5 +1,5 @@
 CONFIG = {
-    "modelname": "ipray-3",
+    "modelname": "ipray-4",
     "model_type": "v2",
 
     # embedding dimension
@@ -30,7 +30,7 @@ CONFIG = {
     "batchsize": 512, 
 
     # good starting value: 0.1
-    "weight_decay": 0.01, 
+    "weight_decay": 0.001, 
 
     # usually 0.1
     "lr_factor": 0.1, 
