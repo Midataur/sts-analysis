@@ -1,5 +1,5 @@
 CONFIG = {
-    "modelname": "ipray-4",
+    "modelname": "ipray-5",
     "model_type": "v2",
 
     # embedding dimension
@@ -17,7 +17,7 @@ CONFIG = {
 
     # number of blocks to have
     # higher means a deeper network
-    "n_blocks": 6,
+    "n_blocks": 8,
 
     # number of continuous variables
     # currently 12, may change
@@ -30,7 +30,7 @@ CONFIG = {
     "batchsize": 512, 
 
     # good starting value: 0.1
-    "weight_decay": 0.001, 
+    "weight_decay": 0.01, 
 
     # usually 0.1
     "lr_factor": 0.1, 
