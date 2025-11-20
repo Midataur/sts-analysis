@@ -1,5 +1,5 @@
 CONFIG = {
-    "modelname": "ipray-9",
+    "modelname": "ipray-10",
     "model_type": "v2",
 
     # embedding dimension
@@ -17,7 +17,7 @@ CONFIG = {
 
     # number of blocks to have
     # higher means a deeper network
-    "n_blocks": 4,
+    "n_blocks": 6,
 
     # number of continuous variables
     # currently 12, may change
