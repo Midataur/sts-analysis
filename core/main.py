@@ -1,10 +1,10 @@
 CONFIG = {
-    "modelname": "ipray-10",
+    "modelname": "ipray-11",
     "model_type": "v2",
 
     # embedding dimension
     # good starting value: 402
-    "n_embed": 240,
+    "n_embed": 180,
 
     # number of attention heads:
     # good starting value: 6
@@ -17,7 +17,7 @@ CONFIG = {
 
     # number of blocks to have
     # higher means a deeper network
-    "n_blocks": 6,
+    "n_blocks": 8,
 
     # number of continuous variables
     # currently 12, may change
